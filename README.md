@@ -27,6 +27,8 @@ App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP arc
 </ul>
 
 <h3>Command line:</h3>
+
+
 ```text
 java -jar xn.jar [options] [custom arg1] [custom arg2] ...");
 
