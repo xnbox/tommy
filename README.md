@@ -2,13 +2,12 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
-Tommy is a single-file executable Java Application Server that allow run or embed your WARs.
-<p><strong>Tommy</strong> is a single-file executable container that makes it possible to launch a static and dynamic web apps by providing built-in server and container functionality.</p>
+<p><strong>Tommy</strong> is a tiny single-file server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
 Under the hood Tommy mainly assembled from Apache Tomcat</a> application server and Eclipse "jar-in-jar" library.
 The minimal app is just plain <code>index.html</code> or <code>index.jsp</code>.
-App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP archive and optionally contain <abbr title="Java Server Pages">JSP</abbr>, servlets and all static stuff like CSS, JavaScript files etc.
+An app can be provided as directory or packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP archive and optionally contain <abbr title="Java Server Pages">JSP</abbr>, servlets and all your static stuff like CSS, JavaScript etc.
 </p>
 
 
@@ -30,7 +29,7 @@ App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP arc
 
 
 ```text
-java -jar xn.jar [options] [custom arg1] [custom arg2] ...");
+java -jar xn.jar [options] [custom arg1] [custom arg2] ...
 
 Options:
   --help                   print help message
