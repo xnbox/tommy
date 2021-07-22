@@ -18,7 +18,6 @@ App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP arc
 <h3>Features:</h3>
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
-	<li>Compatibible with the <abbr title="Web application ARchive">WAR</abbr> spec.</li>
 	<li>Command line args and environment variables</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
