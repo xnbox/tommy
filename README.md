@@ -7,7 +7,7 @@
 <p>
 Under the hood Tommy mainly assembled from Apache Tomcat</a> application server and Eclipse "jar-in-jar" library.
 The minimal app is just plain <code>index.html</code> or <code>index.jsp</code>.
-App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP archive and optionally contain <abbr title="Progressive Web Apps">PWA</abbr> manifest</li>, <abbr title="Java Server Pages">JSP</abbr>, servlets and all static stuff like CSS, JavaScript files etc.
+App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP archive and optionally contain <abbr title="Java Server Pages">JSP</abbr>, servlets and all static stuff like CSS, JavaScript files etc.
 </p>
 
 
@@ -19,7 +19,6 @@ App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP arc
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>Compatibible with the <abbr title="Web application ARchive">WAR</abbr> spec.</li>
-	<li>Read configuration data from the standard <abbr title="Progressive Web Apps">PWA</abbr> webmanifest</li>
 	<li>Command line args and environment variables</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
