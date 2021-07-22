@@ -19,17 +19,16 @@ An app can be provided as directory or packed as <abbr title="Web application AR
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>No own configuration files</li>
-	<li>Configured with the standard Apache Tomcat configuration files</li>
+	<li>No own configuration files. Use the standard Apache Tomcat configuration files</li>
 	<li>Supports standard password protected ZIP archives</li>
-	<li>Supports command line args and environment variables</li>
+	<li>Supports command line args</li>
 </ul>
 
 <h3>Command line:</h3>
 
 
 ```text
-java -jar xn.jar [options] [custom arg1] [custom arg2] ...
+java -jar tommy.jar [options] [custom arg1] [custom arg2] ...
 
 Options:
   --help                   print help message
