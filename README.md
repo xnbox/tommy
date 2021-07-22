@@ -2,7 +2,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
-<p><strong>Tommy</strong> is a single-file executable container that makes it possible to launch a static and dynamic web apps by providing built-in server and browser functionality.</p>
+<p><strong>Tommy</strong> is a single-file executable container that makes it possible to launch a static and dynamic web apps by providing built-in server and container functionality.</p>
 
 <p>
 Under the hood Tommy mainly assembled from Apache Tomcat</a> application server and Eclipse "jar-in-jar" library.
