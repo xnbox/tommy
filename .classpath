@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/annotations-api.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/ecj-4.18.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/jasper.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-embed-core.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-embed-el.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-embed-jasper.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-embed-programmatic.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat_embedded/tomcat-embed-websocket.jar"/>
+	<classpathentry kind="lib" path="lib/zip4j-2.9.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-15"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
