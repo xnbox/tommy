@@ -55,6 +55,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
 import org.tommy.common.utils.CommonUtils;
 import org.tommy.common.utils.LoggerUtils;
+import org.tommy.common.utils.ManifestUtils;
 import org.tommy.common.utils.SystemProperties;
 
 /*
@@ -85,31 +86,7 @@ public class Main {
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--contextPath";
 
 	public static void main(String[] args) throws Throwable {
-		/* JAR: META-INF/MANIFEST.MF - Manifest */
-		Manifest   manifest           = null;
-		Attributes manifestAttributes = null;
-		try (InputStream is = cl.getResourceAsStream("META-INF/MANIFEST.MF"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
-			if (is == null) {
-				logger.log(Level.SEVERE, "\"META-INF/MANIFEST.MF\" is not found!");
-				System.exit(1);
-				return;
-			}
-			manifest           = new Manifest(is);
-			manifestAttributes = manifest.getMainAttributes();
-		} catch (IOException e) { // never throws
-			logger.log(Level.SEVERE, "Unknown error", e);
-		}
-		/*
-		 * Build-Version
-		 */
-		String buildVersion = manifestAttributes.getValue("Build-Version");
-		System.setProperty("xnbox.build.version", buildVersion);
-
-		/*
-		 * Build-Timestamp
-		 */
-		String buildTimestamp = manifestAttributes.getValue("Build-Timestamp");
-		System.setProperty("xnbox.build.timestamp", buildTimestamp);
+		ManifestUtils.extractBuildDataFromManifest(logger);
 
 		/* parse command line */
 		int specialParamCount = 0;
@@ -166,8 +143,8 @@ public class Main {
 			System.out.println(sb);
 			System.exit(0);
 		} else if (info) {
-			System.out.println("xnbox.build.version:   " + buildVersion);
-			System.out.println("xnbox.build.timestamp: " + buildTimestamp);
+			System.out.println("build.version:         " + System.getProperty("build.version"));
+			System.out.println("build.timestamp:       " + System.getProperty("build.timestamp"));
 			System.out.println("os.name:               " + SystemProperties.OS_NAME);
 			System.out.println("os.arch:               " + SystemProperties.OS_ARCH);
 			System.out.println("java.vm.name:          " + SystemProperties.JAVA_JAVA_VM_NAME);
@@ -253,7 +230,6 @@ public class Main {
 		NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
 		//logger.log(Level.CONFIG, "System Properties: " + System.getProperties());
 		//logger.log(Level.CONFIG, "Environment variables: " + System.getenv().toString());
-		logger.log(Level.CONFIG, "Build Timestamp: " + buildTimestamp);
 		logger.log(Level.CONFIG, "WAR: " + warPath);
 
 		tomcat.getServer().await();
