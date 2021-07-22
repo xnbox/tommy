@@ -2,6 +2,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
+Tommy is a single-file executable Java Application Server that allow run or embed your WARs.
 <p><strong>Tommy</strong> is a single-file executable container that makes it possible to launch a static and dynamic web apps by providing built-in server and container functionality.</p>
 
 <p>
@@ -18,9 +19,25 @@ App can be packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP arc
 <h3>Features:</h3>
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
-	<li>Command line args and environment variables</li>
+	<li>No dependencies</li>
+	<li>No own configuration files</li>
+	<li>Configured with the standard Apache Tomcat configuration files</li>
 	<li>Supports standard password protected ZIP archives</li>
+	<li>Supports command line args and environment variables</li>
 </ul>
+
+<h3>Command line:</h3>
+```text
+java -jar xn.jar [options] [custom arg1] [custom arg2] ...");
+
+Options:
+  --help                   print help message
+  --info                   print system info
+  --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL
+  --password <password>    provide password (for encrypted ZIP (or WAR) archive)
+
+```
+
 
 <h3>Run app:</h3>
 
@@ -52,12 +69,6 @@ java -jar tommy.jar --app MyKillerAppDir
 Run encrypted ZIP (or WAR) archive:
 ```bash
 java -jar tommy.jar --app MyKillerApp.zip --password mysecret
-```
-
-
-Show CLI help console output:
-```bash
-java -jar tommy.jar --help
 ```
 
 

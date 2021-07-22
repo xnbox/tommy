@@ -80,7 +80,6 @@ public class Main {
 	private static final String ARGS_APP_OPTION          = "--app";
 	private static final String ARGS_PASSWORD_OPTION     = "--password";
 	private static final String ARGS_HELP_OPTION         = "--help";
-	private static final String ARGS_ABOUT_OPTION        = "--about";
 	private static final String ARGS_INFO_OPTION         = "--info";
 	private static final String ARGS_PORT_OPTION         = "--port";
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--contextPath";
@@ -121,7 +120,6 @@ public class Main {
 		String  app         = null;
 		char[]  password    = null;
 		boolean help        = false;
-		boolean about       = false;
 		boolean info        = false;
 		int     port        = 8080;
 		String  contextPath = "/";
@@ -146,9 +144,6 @@ public class Main {
 				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_HELP_OPTION)) {
 				help               = true;
-				specialParamCount += 1;
-			} else if (args[i].equals(ARGS_ABOUT_OPTION)) {
-				about              = true;
 				specialParamCount += 1;
 			} else if (args[i].equals(ARGS_INFO_OPTION)) {
 				info               = true;
