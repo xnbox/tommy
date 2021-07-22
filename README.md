@@ -21,7 +21,7 @@ An app can be provided as directory or packed as <abbr title="Web application AR
 	<li>No dependencies</li>
 	<li>No own configuration files. Use the standard Apache Tomcat configuration files</li>
 	<li>Supports standard password protected ZIP archives</li>
-	<li>Supports command line args</li>
+	<li>Supports custom command line args</li>
 </ul>
 
 <h3>Command line:</h3>
