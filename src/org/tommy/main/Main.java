@@ -25,7 +25,7 @@ HOME:   https://xnbox.github.io
 E-Mail: xnbox.team@outlook.com
 */
 
-package org.xnbox.main;
+package org.tommy.main;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,26 +36,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.naming.spi.NamingManager;
-
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.startup.Catalina;
-import org.apache.catalina.startup.CatalinaBaseConfigurationSource;
-import org.apache.catalina.startup.Constants;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
-import org.apache.naming.NamingContext;
 import org.tommy.common.utils.CommonUtils;
 import org.tommy.common.utils.LoggerUtils;
 import org.tommy.common.utils.ManifestUtils;
@@ -131,30 +115,23 @@ public class Main {
 		if (help) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\n");
-			sb.append("java -jar xn.jar [options] [custom arg1] [custom arg2] ...\n");
+			sb.append("Tommy " + System.getProperty("build.version") + " " + System.getProperty("build.timestamp") + ". OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + "). JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ").\n");
 			sb.append("\n");
-			sb.append("Options:\n");
-			sb.append("  --help                   print help message\n");
-			sb.append("  --info                   print system info\n");
-			if (app == null)
+			if (app != null) {
+				sb.append("Usage:\n");
+				sb.append("\n");
+				sb.append("java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
+				sb.append("\n");
+				sb.append("Options:\n");
+				sb.append("  --help                   print help message\n");
 				sb.append("  --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL\n");
-			sb.append("  --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
-
+				sb.append("  --port                   port number, default: 8080\n");
+				sb.append("  --contextPath            context path, default: /\n");
+				sb.append("  --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
+			}
 			System.out.println(sb);
 			System.exit(0);
-		} else if (info) {
-			System.out.println("build.version:         " + System.getProperty("build.version"));
-			System.out.println("build.timestamp:       " + System.getProperty("build.timestamp"));
-			System.out.println("os.name:               " + SystemProperties.OS_NAME);
-			System.out.println("os.arch:               " + SystemProperties.OS_ARCH);
-			System.out.println("java.vm.name:          " + SystemProperties.JAVA_JAVA_VM_NAME);
-			System.out.println("java.version:          " + SystemProperties.JAVA_JAVA_VERSION);
-			System.out.println("java.class.version:    " + SystemProperties.JAVA_JAVA_CLASS_VERSION);
-			System.out.println("java.awt.headless:     " + SystemProperties.JAVA_AWT_HEADLESS);
-			System.exit(0);
 		}
-
-		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
 		/* JAR: META-INF/CONFIG/system.properties - System Properties (optional) */
 		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
@@ -199,6 +176,11 @@ public class Main {
 		Files.createDirectories(confPath);
 
 		Path warPath = CommonUtils.getWarPath(jarFileName, webappsPath, app, password);
+		if (warPath == null) {
+			logger.log(Level.SEVERE, "App not found.");
+			System.exit(0);
+		}
+
 		/*
 		 * context path
 		 */
@@ -206,6 +188,7 @@ public class Main {
 
 		CommonUtils.prepareTomcatConf(confPath, port);
 
+		String[]                    argz   = Arrays.copyOfRange(args, specialParamCount, args.length);
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
 

@@ -3,7 +3,7 @@ Created-By: xnbox team
 Build-Version: ${build.version}
 Build-Timestamp: ${build.timestamp}
 Main-Class: org.tommy.common.JarRsrcLoaderMain
-Rsrc-Main-Class: org.xnbox.main.Main
+Rsrc-Main-Class: org.tommy.main.Main
 Rsrc-Class-Path: ./ 
   org/lib/annotations-api.jar
   org/lib/ecj-4.18.jar

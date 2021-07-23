@@ -5,19 +5,19 @@
 <p><strong>Tommy</strong> is a tiny single-file Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
-An app can be provided as directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain <abbr title="Java Server Pages">JSP</abbr>, servlets and static stuff like CSS, JavaScript etc.
+An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain <abbr title="Java Server Pages">JSP</abbr>, servlets, and static stuff like CSS, JavaScript, etc.
 </p>
 
 
 <h3>Download:</h3>
-<a href="https://github.com/xnbox/tommy/releases/download/2.14.1/tommy-2.14.1.jar">tommy-2.14.1.jar</a> Latest release
+Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1/tommy-2.14.1.jar">tommy-2.14.1.jar</a> (on top of Apache Tomcat v10.0.8)
 
 
 <h3>Features:</h3>
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>No own configuration files, Tommy uses the standard Apache Tomcat configuration files</li>
+	<li>No own configuration files. Tommy reads the standard Tomcat configuration files</li>
 	<li>Supports custom command line args</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
@@ -30,8 +30,9 @@ java -jar tommy.jar [options] [custom arg1] [custom arg2] ...
 
 Options:
   --help                   print help message
-  --info                   print system info
   --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL
+  --port                   port number, default: 8080
+  --contextPath            context path, default: /
   --password <password>    provide password (for encrypted ZIP (or WAR) archive)
 
 ```

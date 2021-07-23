@@ -158,6 +158,8 @@ public class CommonUtils {
 		Path   warPath;
 		String warResource = getWarResource();
 		if (warResource == null) { // No embedded app file found
+			if (app == null)
+				return null;
 			// --app parameter specified
 			boolean warIsUrl = app.startsWith("file://") || app.startsWith("http://") || app.startsWith("https://");
 			warPath = webappsPath.resolve(APP_WAR);
