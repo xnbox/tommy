@@ -37,12 +37,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.naming.spi.NamingManager;
@@ -53,6 +55,7 @@ import org.apache.catalina.startup.CatalinaBaseConfigurationSource;
 import org.apache.catalina.startup.Constants;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
+import org.apache.naming.NamingContext;
 import org.tommy.common.utils.CommonUtils;
 import org.tommy.common.utils.LoggerUtils;
 import org.tommy.common.utils.ManifestUtils;
@@ -75,9 +78,6 @@ public class Main {
 	// The range 49152–65535 (215 + 214 to 216 − 1) contains dynamic or private ports that cannot be registered with IANA.
 	// This range is used for private or customized services, for temporary purposes, and for automatic allocation of ephemeral ports.
 
-	private static final String JAVA_COMP_ENV_XNBOX_APP  = "java:comp/env/xnbox/app";
-	private static final String JAVA_COMP_ENV_XNBOX_ARGS = "java:comp/env/xnbox/args";
-
 	private static final String ARGS_APP_OPTION          = "--app";
 	private static final String ARGS_PASSWORD_OPTION     = "--password";
 	private static final String ARGS_HELP_OPTION         = "--help";
@@ -98,7 +98,7 @@ public class Main {
 		char[]  password    = null;
 		boolean help        = false;
 		boolean info        = false;
-		int     port        = 8080;
+		Integer port        = null;
 		String  contextPath = "/";
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals(ARGS_APP_OPTION)) {
@@ -154,23 +154,7 @@ public class Main {
 			System.exit(0);
 		}
 
-		String[]       argz           = Arrays.copyOfRange(args, specialParamCount, args.length);
-		InitialContext initialContext = new InitialContext() {
-
-											private Map<String, Object> table = new HashMap<>();
-
-											@Override
-											public void bind(String key, Object value) {
-												table.put(key, value);
-											}
-
-											@Override
-											public Object lookup(String key) throws NamingException {
-												return table.get(key);
-											}
-										};
-		initialContext.bind(JAVA_COMP_ENV_XNBOX_APP, app);
-		initialContext.bind(JAVA_COMP_ENV_XNBOX_ARGS, argz);
+		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
 		/* JAR: META-INF/CONFIG/system.properties - System Properties (optional) */
 		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
@@ -222,48 +206,17 @@ public class Main {
 
 		CommonUtils.prepareTomcatConf(confPath, port);
 
-		File catalinaBaseFile = Files.createTempDirectory("catalina_base-").toFile();
-		catalinaBaseFile.deleteOnExit();
-		String catalinaBase = catalinaBaseFile.getAbsolutePath();
+		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
+		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
 
-		Tomcat tomcat = startTomcat(logger, catalinaHome, catalinaBase, contextPath, warPath);
-		NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
+		logger.info("SERVER: " + ctx.getServletContext().getServerInfo());
+		tomcat.start();
+
 		//logger.log(Level.CONFIG, "System Properties: " + System.getProperties());
 		//logger.log(Level.CONFIG, "Environment variables: " + System.getenv().toString());
 		logger.log(Level.CONFIG, "WAR: " + warPath);
 
 		tomcat.getServer().await();
-	}
-
-	private static Tomcat startTomcat(Logger logger, String catalinaHome, String catalinaBase, String contextPath, Path warPath) throws Throwable {
-		System.setProperty(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
-		System.setProperty(Constants.CATALINA_HOME_PROP, catalinaHome);
-		System.setProperty(Constants.CATALINA_BASE_PROP, catalinaBase);
-
-		/* Why do I need to do this? (fails in with "Caused by: java.lang.Error: factory already defined" without it). */
-		TomcatURLStreamHandlerFactory.disable();
-
-		Tomcat tomcat = new Tomcat();
-		tomcat.setAddDefaultWebXmlToWebapp(true);
-		tomcat.init(new CatalinaBaseConfigurationSource(new File(catalinaHome), catalinaHome + '/' + Catalina.SERVER_XML));
-		org.apache.catalina.Context ctx = tomcat.addWebapp(contextPath, warPath.toString());
-
-		logger.info("SERVER: " + ctx.getServletContext().getServerInfo());
-
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				if (tomcat != null)
-					try {
-						tomcat.stop();
-					} catch (LifecycleException e) {
-						e.printStackTrace();
-					}
-			}
-		});
-
-		tomcat.start();
-		return tomcat;
 	}
 
 }

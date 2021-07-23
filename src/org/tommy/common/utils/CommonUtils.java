@@ -1,5 +1,6 @@
 package org.tommy.common.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,7 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.logging.Logger;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.spi.NamingManager;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -24,6 +29,12 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.startup.Catalina;
+import org.apache.catalina.startup.CatalinaBaseConfigurationSource;
+import org.apache.catalina.startup.Constants;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Node;
@@ -170,7 +181,7 @@ public class CommonUtils {
 		return warPath;
 	}
 
-	public static void prepareTomcatConf(Path confPath, int port) throws Throwable {
+	public static void prepareTomcatConf(Path confPath, Integer port) throws Throwable {
 		/* update server.xml document */
 		Document serverXmlDocument = null;
 		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/catalina_home_conf/server.xml")) {
@@ -179,8 +190,10 @@ public class CommonUtils {
 				DocumentBuilder        builder        = builderFactory.newDocumentBuilder();
 				serverXmlDocument = builder.parse(is);
 
-				Node portNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector/@port").evaluate(serverXmlDocument, XPathConstants.NODE);
-				portNode.setTextContent(Integer.toString(port)); // update node with real TCP port number
+				if (port != null) {
+					Node portNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector/@port").evaluate(serverXmlDocument, XPathConstants.NODE);
+					portNode.setTextContent(Integer.toString(port)); // update node with real TCP port number
+				}
 
 				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
 				autoDeployNode.setTextContent(Boolean.toString(false));
@@ -198,4 +211,50 @@ public class CommonUtils {
 		copyConfResource(confPath, "catalina.properties");
 		copyConfResource(confPath, "catalina.policy");
 	}
+
+	public static Tomcat prepareTomcat(Logger logger, String catalinaHome, String app, String[] argz) throws Throwable {
+		File catalinaBaseFile = Files.createTempDirectory("catalina_base-").toFile();
+		catalinaBaseFile.deleteOnExit();
+		String catalinaBase = catalinaBaseFile.getAbsolutePath();
+
+		System.setProperty(Constants.CATALINA_HOME_PROP, catalinaHome);
+		System.setProperty(Constants.CATALINA_BASE_PROP, catalinaBase);
+
+		System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
+		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
+
+		/* Why do I need to do this? (fails in with "Caused by: java.lang.Error: factory already defined" without it). */
+		TomcatURLStreamHandlerFactory.disable();
+
+		Tomcat tomcat = new Tomcat();
+
+		InitialContext initialContext = new InitialContext();
+		initialContext.createSubcontext("java:");
+		initialContext.createSubcontext("java:comp");
+		initialContext.createSubcontext("java:comp/env");
+		initialContext.createSubcontext("java:comp/env/tommy");
+
+		initialContext.bind("java:comp/env/tommy/app", app);
+		initialContext.bind("java:comp/env/tommy/args", argz);
+
+		NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
+
+		tomcat.setAddDefaultWebXmlToWebapp(true);
+		tomcat.init(new CatalinaBaseConfigurationSource(new File(catalinaHome), catalinaHome + '/' + Catalina.SERVER_XML));
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				if (tomcat != null)
+					try {
+						tomcat.stop();
+					} catch (LifecycleException e) {
+						e.printStackTrace();
+					}
+			}
+		});
+
+		return tomcat;
+	}
+
 }
