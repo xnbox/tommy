@@ -99,8 +99,8 @@ java -jar MyKillerApp.jar --password mysecret myparam1 myparam2
 ```java
 InitialContext ctx = new InitialContext();
 
-String    app = (String)  ctx.lookup("java:comp/env/tommy/app");    // app parameter value
-String[] args = (String[])ctx.lookup("java:comp/env/tommy/args"); // custom command-line args
+String   app  = (String)   ctx.lookup("java:comp/env/tommy/app");  // "--app" parameter value
+String[] args = (String[]) ctx.lookup("java:comp/env/tommy/args"); // custom command-line args
 
 
 ```
