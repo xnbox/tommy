@@ -94,6 +94,8 @@ java -jar MyKillerApp.jar --password mysecret myparam1 myparam2
 ```
 
 <h3>Get extended data:</h3>
+
+
 ```java
 InitialContext ctx = new InitialContext();
 
@@ -105,6 +107,7 @@ String[] args = (String[])ctx.lookup("java:comp/env/tommy/args");
 
 
 ```
+
 
 <h3>F.A.Q.</h3>
 
