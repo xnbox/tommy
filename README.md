@@ -2,12 +2,10 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
-<p><strong>Tommy</strong> is a tiny single-file web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
+<p><strong>Tommy</strong> is a tiny single-file Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
-Under the hood Tommy based on Apache Tomcat.
-The minimal app is just plain old <code>index.html</code> or <code>index.jsp</code>.
-An app can be provided as directory or packed as <abbr title="Web application ARchive">WAR</abbr> or ZIP archive and optionally contain <abbr title="Java Server Pages">JSP</abbr>, servlets and all your static stuff like CSS, JavaScript etc.
+An app can be provided as directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive and optionally contain <abbr title="Java Server Pages">JSP</abbr>, servlets and all your static stuff like CSS, JavaScript etc.
 </p>
 
 
@@ -19,7 +17,7 @@ An app can be provided as directory or packed as <abbr title="Web application AR
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>No own configuration files, instead Tommy uses the standard Apache Tomcat configuration files</li>
+	<li>No own configuration files, Tommy uses the standard Apache Tomcat configuration files</li>
 	<li>Supports custom command line args</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
@@ -93,7 +91,17 @@ Run password-protected embedded app with custom command-line args:
 java -jar MyKillerApp.jar --password mysecret myparam1 myparam2
 ```
 
-<h3>Get extended data:</h3>
+<h3>Tomcat configuration:</h3>
+Tommy uses the standard set of Tomcat configuration files, which can be found here:
+
+
+```text
+META-INF/CONFIG/catalina_home_conf
+
+```
+
+
+<h3>Access the extended data within Servlet/JSP:</h3>
 
 
 ```java
