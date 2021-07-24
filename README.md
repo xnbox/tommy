@@ -101,17 +101,20 @@ META-INF/CONFIG/catalina_home_conf
 ```
 
 
-<h3>Access to the custom command-line args programmatically:</h3>
+<h3>Access to the custom command-line args programmatically (JNDI):</h3>
 
 
 ```java
 
-// ...somewhere in Servlet or JSP
+// ...somewhere in your Servlet or JSP
 
 InitialContext ctx = new InitialContext();
 
-String[] args = (String[]) ctx.lookup("java:comp/env/tommy/args"); // get custom command-line args
-String   app  = (String)   ctx.lookup("java:comp/env/tommy/app");  // get "--app" parameter value
+/* get custom command-line args */
+String[] args = (String[]) ctx.lookup("java:comp/env/tommy/args");
+
+/* get "--app" parameter value */
+String   app  = (String)   ctx.lookup("java:comp/env/tommy/app");
 
 // ...
 
