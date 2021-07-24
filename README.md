@@ -5,7 +5,7 @@
 <p><strong>Tommy</strong> is a tiny single-file Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
-An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain <abbr title="Java Server Pages">JSP</abbr>, servlets, and static stuff like CSS, JavaScript, etc.
+An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain servlets, <abbr title="Java Server Pages">JSP</abbr>, HTML and all other static stuff like CSS, JavaScript, etc.
 </p>
 
 
