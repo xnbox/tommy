@@ -125,6 +125,6 @@ String   app  = (String)   ctx.lookup("java:comp/env/tommy/app");
 
 <strong>Q.</strong> My app failed with <code>java.lang.ClassNotFoundException: javax.servlet.\*</code>
 <br>
-<strong>A.</strong> As a result of the move from Java EE to Jakarta EE, starts with v10 Apache Tomcat supports only the Jakarta EE spec. <code>javax.servlet.\*</code> is no longer supported.
-Replace the <code>javax.servlet.\*</code> imports in your code with <code>jakarta.servlet.\*</code>
+<strong>A.</strong> As a result of the move from Java EE to Jakarta EE, starting from v10, Apache Tomcat supports only the Jakarta EE spec. <code>javax.servlet.\*</code> is no longer supported.
+Replace the <code>javax.servlet.\*</code> imports in your code with <code>jakarta.servlet.\*</code>.
 
