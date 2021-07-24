@@ -17,7 +17,7 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>No own configuration files. Tommy reads the standard Tomcat configuration files</li>
+	<li>Doesn't have configuration files, instead, Tommy uses standard standard Tomcat configuration files</li>
 	<li>Supports custom command line args</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
@@ -31,7 +31,7 @@ java -jar tommy.jar [options] [custom arg1] [custom arg2] ...
 Options:
   --help                   print help message
   --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL
-  --port                   port number, default: 8080
+  --port                   TCP port number, default: 8080
   --contextPath            context path, default: /
   --password <password>    provide password (for encrypted ZIP (or WAR) archive)
 
