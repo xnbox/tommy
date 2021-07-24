@@ -17,7 +17,7 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1
 <ul>
 	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>Doesn't have configuration files, instead, Tommy uses standard standard Tomcat configuration files</li>
+	<li>Doesn't have configuration files, instead, Tommy uses standard Tomcat configuration files</li>
 	<li>Supports custom command line args</li>
 	<li>Supports standard password protected ZIP archives</li>
 </ul>
@@ -73,13 +73,13 @@ java -jar tommy.jar --app MyKillerApp.zip --password mysecret
 
 <h3>Embed app:</h3>
 <ul>
-	<li>Option 1. Copy your app content into the <code>/app</code> directory of the <code>tommy.jar</code>
+	<li>Option 1. Copy your app content into the <code>/app</code> directory of the <code>tommy.jar</code>.
 	</li>
-	<li>Option 2. Pack your app as <code>app.war</code> or <code>app.zip</code> (the archive can be encrypted) and copy archive to the root directory of the <code>tommy.jar</code>
+	<li>Option 2. Pack your app as <code>app.war</code> or <code>app.zip</code> (the archive can be encrypted) and copy the archive to the root directory of the <code>tommy.jar</code>.
 	</li>
 </ul>
 
-Brand your app by renaming the <code>tommy.jar</code> to the <code>MyKillerApp.jar</code>
+Brand your app by renaming the <code>tommy.jar</code> to the <code>MyKillerApp.jar</code>.
 
 Run your embedded app:
 ```bash
