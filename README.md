@@ -1,4 +1,4 @@
-# Tommy
+# Tommy Web Server
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
@@ -6,6 +6,10 @@
 
 <p>
 An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain servlets, <abbr title="Java Server Pages">JSP</abbr>, HTML and all other static stuff like CSS, JavaScript, etc.
+</p>
+
+<p>
+We use Tommy web server in other our project <a href="https://github.com/xnbox/tommybox">TommyBox</a>.
 </p>
 
 <h3>Download:</h3>
