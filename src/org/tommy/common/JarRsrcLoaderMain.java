@@ -36,6 +36,7 @@ import org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader;
 
 public class JarRsrcLoaderMain {
 	/**
+	 * The main method
 	 * 
 	 * @param args
 	 * @throws ClassNotFoundException

@@ -66,7 +66,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Node;
 
+/**
+ * Common Utilities 
+ *
+ */
 public class CommonUtils {
+
+	/* formatter settings */
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$-6s %5$s%6$s%n");
 	}
@@ -80,6 +86,13 @@ public class CommonUtils {
 	private static Class       clazz = CommonUtils.class;
 	private static ClassLoader cl    = clazz.getClassLoader();
 
+	/**
+	 * Copy the Apache Tomcat configuration files
+	 *
+	 * @param targetPath
+	 * @param fileName
+	 * @throws IOException
+	 */
 	public static void copyConfResource(Path targetPath, String fileName) throws IOException {
 		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/" + fileName)) {
 			if (is == null)
@@ -89,6 +102,14 @@ public class CommonUtils {
 		}
 	}
 
+	/**
+	 * Copy the Apache Tomcat "server.xml" file
+	 *
+	 * @param targetPath
+	 * @param fileName
+	 * @param serverXmlDocument
+	 * @throws Throwable
+	 */
 	public static void copyConfServerXml(Path targetPath, String fileName, Document serverXmlDocument) throws Throwable {
 		Path         path = targetPath.resolve(fileName);
 		OutputStream os   = Files.newOutputStream(path);
@@ -109,7 +130,8 @@ public class CommonUtils {
 	}
 
 	/**
-	 * 
+	 * Store XML document
+	 *
 	 * @param xmlDocument
 	 * @param os
 	 * @throws Throwable
@@ -129,6 +151,12 @@ public class CommonUtils {
 		transformer.transform(source, result);
 	}
 
+	/**
+	 * Extract resource from war file
+	 *
+	 * @return
+	 * @throws MalformedURLException
+	 */
 	public static String getWarResource() throws MalformedURLException {
 		// Fallback chain: app.war -> app.zip -> app (DIR) -> null
 
@@ -153,6 +181,12 @@ public class CommonUtils {
 		return null;
 	}
 
+	/**
+	 * Change file extension to ".war"
+	 *
+	 * @param warFileName
+	 * @return
+	 */
 	public static String changeFileExtToWar(String warFileName) {
 		/* Tomcat will handle file only with ".war" extension */
 		if (warFileName.endsWith(WAR_EXT))
@@ -163,6 +197,12 @@ public class CommonUtils {
 		return warFileName.substring(0, pos) + WAR_EXT;
 	}
 
+	/**
+	 * Get context path
+	 *
+	 * @param contextPath
+	 * @return
+	 */
 	public static String getContextPath(String contextPath) {
 		if (contextPath == null)
 			contextPath = "";
@@ -181,6 +221,16 @@ public class CommonUtils {
 		return contextPath;
 	}
 
+	/**
+	 * Get WAR path
+	 *
+	 * @param jarFileName
+	 * @param webappsPath
+	 * @param app
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
 	public static Path getWarPath(String jarFileName, Path webappsPath, String app, char[] password) throws Exception {
 		Path   warPath;
 		String warResource = getWarResource();
@@ -210,6 +260,13 @@ public class CommonUtils {
 		return warPath;
 	}
 
+	/**
+	 * Prepare Apache Tomcat configuration
+	 *
+	 * @param confPath
+	 * @param port
+	 * @throws Throwable
+	 */
 	public static void prepareTomcatConf(Path confPath, Integer port) throws Throwable {
 		/* update server.xml document */
 		Document serverXmlDocument = null;
@@ -241,6 +298,16 @@ public class CommonUtils {
 		copyConfResource(confPath, "catalina.policy");
 	}
 
+	/**
+	 * Prepare Apache Tomcat for start up
+	 *
+	 * @param logger
+	 * @param catalinaHome
+	 * @param app
+	 * @param argz
+	 * @return
+	 * @throws Throwable
+	 */
 	public static Tomcat prepareTomcat(Logger logger, String catalinaHome, String app, String[] argz) throws Throwable {
 		File catalinaBaseFile = Files.createTempDirectory("catalina_base-").toFile();
 		catalinaBaseFile.deleteOnExit();
