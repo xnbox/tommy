@@ -8,10 +8,6 @@
 An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain servlets, <abbr title="Java Server Pages">JSP</abbr>, HTML and all other static stuff like CSS, JavaScript, etc.
 </p>
 
-<p>
-See Tommy in action here: <a href="https://github.com/xnbox/tommybox_demo">https://github.com/xnbox/tommybox_demo</a>
-</p>
-
 <h3>Download:</h3>
 Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1/tommy-2.14.1.jar">tommy-2.14.1.jar</a> (on top of Apache Tomcat v10.0.8)
 
