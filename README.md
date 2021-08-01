@@ -91,13 +91,8 @@ Run password-protected embedded app with custom command-line args:
 java -jar MyKillerApp.jar --password mysecret myparam1 myparam2
 ```
 
-<h3>Tomcat configuration files:</h3>
-Tomcat configuration files can be found here (path into <code>tommy.jar</code>):
-
-
-```text
-META-INF/CONFIG/catalina_home_conf
-```
+<h3>Tomcat configuration:</h3>
+Tommy uses the Apache Tomcat configuration files from <code>/META-INF/tomcat/conf</code> directory of the <code>tommy.jar</code> archive.
 
 
 <h3>Access to the custom command-line args programmatically (JNDI):</h3>

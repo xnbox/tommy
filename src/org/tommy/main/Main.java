@@ -65,7 +65,6 @@ public class Main {
 	private static final String ARGS_APP_OPTION          = "--app";
 	private static final String ARGS_PASSWORD_OPTION     = "--password";
 	private static final String ARGS_HELP_OPTION         = "--help";
-	private static final String ARGS_INFO_OPTION         = "--info";
 	private static final String ARGS_PORT_OPTION         = "--port";
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--contextPath";
 
@@ -81,7 +80,6 @@ public class Main {
 		String  app         = null;
 		char[]  password    = null;
 		boolean help        = false;
-		boolean info        = false;
 		Integer port        = null;
 		String  contextPath = "/";
 		for (int i = 1; i < args.length; i++) {
@@ -105,9 +103,6 @@ public class Main {
 				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_HELP_OPTION)) {
 				help               = true;
-				specialParamCount += 1;
-			} else if (args[i].equals(ARGS_INFO_OPTION)) {
-				info               = true;
 				specialParamCount += 1;
 			}
 		}
@@ -133,20 +128,20 @@ public class Main {
 			System.exit(0);
 		}
 
-		/* JAR: META-INF/CONFIG/system.properties - System Properties (optional) */
-		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+		/* JAR: META-INF/system.properties - System Properties (optional) */
+		try (InputStream is = cl.getResourceAsStream("META-INF/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
 			if (is == null)
-				logger.log(Level.WARNING, "\"META-INF/CONFIG/system.properties\" resource (optional) is not found");
+				logger.log(Level.WARNING, "\"META-INF/system.properties\" resource (optional) is not found");
 			else
 				System.getProperties().load(reader);
 		} catch (IOException e) { // never throws
 			logger.log(Level.SEVERE, "Unknown error", e);
 		}
 
-		//		/* JAR: META-INF/CONFIG/env.properties - Environment variables (optional) */
-		//		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/env.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+		//		/* JAR: META-INF/env.properties - Environment variables (optional) */
+		//		try (InputStream is = cl.getResourceAsStream("META-INF/env.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
 		//			if (is == null)
-		//				logger.log(Level.WARNING, "\"META-INF/CONFIG/env.properties\" resource (optional) is not found");
+		//				logger.log(Level.WARNING, "\"META-INF/env.properties\" resource (optional) is not found");
 		//			else {
 		//				Properties properties = new Properties();
 		//				properties.load(reader);

@@ -54,7 +54,7 @@ public class CommonUtils {
 	private static ClassLoader cl    = clazz.getClassLoader();
 
 	public static void copyConfResource(Path targetPath, String fileName) throws IOException {
-		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/catalina_home_conf/" + fileName)) {
+		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/" + fileName)) {
 			if (is == null)
 				return;
 			Path path = targetPath.resolve(fileName);
@@ -186,7 +186,7 @@ public class CommonUtils {
 	public static void prepareTomcatConf(Path confPath, Integer port) throws Throwable {
 		/* update server.xml document */
 		Document serverXmlDocument = null;
-		try (InputStream is = cl.getResourceAsStream("META-INF/CONFIG/catalina_home_conf/server.xml")) {
+		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/server.xml")) {
 			if (is != null) {
 				DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder        builder        = builderFactory.newDocumentBuilder();
