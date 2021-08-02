@@ -2,7 +2,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 
 <h3>About:</h3>
-<p><strong>Tommy</strong> is a tiny single-file Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
+<p><strong>Tommy</strong> is a tiny single-file fully configurable Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
 An app can be provided as a directory or packed as <abbr title="Web application ARchive">WAR</abbr> (or ZIP) archive that can contain servlets, <abbr title="Java Server Pages">JSP</abbr>, HTML and all other static stuff like CSS, JavaScript, etc.
@@ -18,11 +18,19 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1
 
 <h3>Features:</h3>
 <ul>
-	<li>Single cross-platform executable jar (starts from ~10Mb)</li>
-	<li>No dependencies</li>
-	<li>Doesn't have configuration files, instead, Tommy uses standard Tomcat configuration files</li>
+	<li>Single executable jar (starts from ~10Mb)</li>
+	<li>100% pure Java</li>
+	<li>No external dependencies</li>
+	<li>Uses standard Tomcat configuration files</li>
 	<li>Supports custom command line args</li>
-	<li>Supports standard password protected ZIP archives</li>
+	<li>
+		Supported web apps:
+		<ul>
+			<li>local or remote WAR files</li>
+			<li>local or remote web apps packed as ZIP archives (including standard password protected ZIPs)</li>
+			<li>exploded web apps (local directories)</li>
+		</ul>
+	</li>
 </ul>
 
 <h3>Command line:</h3>
@@ -52,7 +60,7 @@ java -jar tommy.jar --app MyKillerApp.war
 
 Run ZIP (or WAR) file with custom command-line args:
 ```bash
-java -jar tommy.jar --app MyKillerApp.war myparam1 myparam2
+java -jar tommy.jar --app MyKillerApp.war myparam1 myparam2 ...
 ```
 
 
@@ -62,15 +70,21 @@ java -jar tommy.jar --app https://example.com/MyKillerApp.zip
 ```
 
 
-Run app from directory:
+Run exploded app from directory:
 ```bash
 java -jar tommy.jar --app MyKillerAppDir
 ```
 
 
-Run encrypted ZIP (or WAR) archive:
+Run password-protected ZIP (or WAR) archive:
 ```bash
 java -jar tommy.jar --app MyKillerApp.zip --password mysecret
+```
+
+
+Run password-protected ZIP (or WAR) archive with custom command-line args:
+```bash
+java -jar tommy.jar --app MyKillerApp.zip --password mysecret myparam1 myparam2 ...
 ```
 
 
@@ -84,16 +98,30 @@ java -jar tommy.jar --app MyKillerApp.zip --password mysecret
 
 Brand your app by renaming the <code>tommy.jar</code> to the <code>MyKillerApp.jar</code>.
 
-Run your embedded app:
+
+Run embedded app:
 ```bash
 java -jar MyKillerApp.jar
 ```
 
 
+Run embedded app with custom command-line args:
+```bash
+java -jar MyKillerApp.jar myparam1 myparam2 ...
+```
+
+
+Run password-protected embedded app:
+```bash
+java -jar MyKillerApp.jar --password mysecret
+```
+
+
 Run password-protected embedded app with custom command-line args:
 ```bash
-java -jar MyKillerApp.jar --password mysecret myparam1 myparam2
+java -jar MyKillerApp.jar --password mysecret myparam1 myparam2 ...
 ```
+
 
 <h3>Tomcat configuration:</h3>
 Tommy uses the Apache Tomcat configuration files from <code>/META-INF/tomcat/conf</code> directory of the <code>tommy.jar</code> archive.
