@@ -22,17 +22,16 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/2.14.1
 	<li>100% pure Java</li>
 	<li>No external dependencies</li>
 	<li>Uses standard Tomcat configuration files</li>
-	<li>
-		Supported web apps:
-		<ul>
-			<li>WAR files</li>
-			<li>web apps packed as ZIP archives (including standard password-protected ZIPs)</li>
-			<li>exploded web apps (local directories)</li>
-			<li>remote WAR/ZIP files (HTTP)</li>
-			<li>embedded WAR/ZIP files and directories</li>
-		</ul>
-	</li>
 	<li>Supports custom command line args</li>
+</ul>
+
+<h3>Supported web apps:</h3>
+<ul>
+	<li>WAR files</li>
+	<li>web apps packed as ZIP archives (including standard password-protected ZIPs)</li>
+	<li>exploded web apps (local directories)</li>
+	<li>remote WAR / ZIP files (HTTP)</li>
+	<li>embedded WAR / ZIP files and directories</li>
 </ul>
 
 <h3>Command line:</h3>
