@@ -70,7 +70,7 @@ java -jar tommy.jar --app https://example.com/MyKillerApp.zip
 ```
 
 
-Run exploded app from directory:
+Run exploded web app from directory:
 ```bash
 java -jar tommy.jar --app MyKillerAppDir
 ```
