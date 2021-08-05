@@ -107,6 +107,9 @@ public class Main {
 			}
 		}
 
+		/**
+		 * Custom argz
+		 */
 		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
 		if (app == null)
