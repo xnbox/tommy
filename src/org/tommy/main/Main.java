@@ -108,7 +108,7 @@ public class Main {
 		}
 
 		/**
-		 * Custom argz
+		 * Custom command line args
 		 */
 		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
