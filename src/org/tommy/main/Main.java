@@ -107,12 +107,16 @@ public class Main {
 			}
 		}
 
-		if (help) {
-			StringBuilder sb = new StringBuilder();
-			sb.append("\n");
-			sb.append("Tommy " + System.getProperty("build.version") + " " + System.getProperty("build.timestamp") + ". OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + "). JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ").\n");
-			sb.append("\n");
-			if (app != null) {
+		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
+
+		if (app == null)
+			CustomMain.main(argz);
+		else {
+			if (help) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("\n");
+				sb.append("Tommy " + System.getProperty("build.version") + " " + System.getProperty("build.timestamp") + ". OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + "). JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ").\n");
+				sb.append("\n");
 				sb.append("Usage:\n");
 				sb.append("\n");
 				sb.append("java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
@@ -123,9 +127,9 @@ public class Main {
 				sb.append("  --port                   port number, default: 8080\n");
 				sb.append("  --contextPath            context path, default: /\n");
 				sb.append("  --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
+				System.out.println(sb);
+				System.exit(0);
 			}
-			System.out.println(sb);
-			System.exit(0);
 		}
 
 		/* JAR: META-INF/system.properties - System Properties (optional) */
@@ -183,7 +187,6 @@ public class Main {
 
 		CommonUtils.prepareTomcatConf(confPath, port);
 
-		String[]                    argz   = Arrays.copyOfRange(args, specialParamCount, args.length);
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
 
