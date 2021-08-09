@@ -128,7 +128,7 @@ java -jar MyKillerApp.jar --password mysecret myparam1 myparam2 ...
 Tommy uses the Apache Tomcat configuration files from <code>/META-INF/tomcat/conf</code> directory of the <code>tommy.jar</code> archive.
 
 
-<h3>Access to the custom command-line args programmatically (JNDI):</h3>
+<h3>Access to the custom command-line args and system streams programmatically (JNDI):</h3>
 
 
 ```java
@@ -140,10 +140,20 @@ InitialContext ctx = new InitialContext();
 /* get custom command-line args */
 String[] args = (String[]) ctx.lookup("java:comp/env/tommy/args");
 
+/* get standard input (stdin) */
+InputStream stdin = (InputStream) ctx.lookup("java:comp/env/tommy/stdin");
+
+/* get standard output (stdout) */
+PrintStream stdout = (PrintStream) ctx.lookup("java:comp/env/tommy/stdout");
+
+/* get standard error (stderr) */
+PrintStream stderr = (PrintStream) ctx.lookup("java:comp/env/tommy/stderr");
+
 /* get "--app" parameter value */
-String   app  = (String)   ctx.lookup("java:comp/env/tommy/app");
+String app = (String) ctx.lookup("java:comp/env/tommy/app");
 
 // ...
+
 
 ```
 

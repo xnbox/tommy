@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -330,8 +331,11 @@ public class CommonUtils {
 		initialContext.createSubcontext("java:comp/env");
 		initialContext.createSubcontext("java:comp/env/tommy");
 
-		initialContext.bind("java:comp/env/tommy/app", app);
-		initialContext.bind("java:comp/env/tommy/args", argz);
+		initialContext.bind("java:comp/env/tommy/app", app); // String
+		initialContext.bind("java:comp/env/tommy/args", argz); // String[]
+		initialContext.bind("java:comp/env/tommy/stdin", System.in); // InputStream
+		initialContext.bind("java:comp/env/tommy/stdout", System.out); // PrintStream
+		initialContext.bind("java:comp/env/tommy/stderr", System.err); // PrintStream
 
 		NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
 
