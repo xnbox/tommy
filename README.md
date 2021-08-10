@@ -2,7 +2,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 [![Version 10.0.8](https://img.shields.io/badge/version-10.0.8-4DC71F?style=flat-square)](https://github.com/xnbox/tommy/releases)
 
-<h3>About:</h3>
+<h2>About:</h2>
 <p><strong>Tommy</strong> is a tiny single-file fully configurable Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
 
 <p>
@@ -13,11 +13,11 @@ An app can be provided as a directory or packed as <abbr title="Web application 
 We use Tommy web server in other our project <a href="https://github.com/xnbox/tommybox">TommyBox</a>.
 </p>
 
-<h3>Download:</h3>
+<h2>Download:</h2>
 Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.8/tommy-10.0.8.jar">tommy-10.0.8.jar</a> (on top of Apache Tomcat v10.0.8)
 
 
-<h3>Features:</h3>
+<h2>Features:</h2>
 <ul>
 	<li>Single executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
@@ -25,7 +25,7 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.
 	<li>Supports custom command line args, stdin, stdout, stderr</li>
 </ul>
 
-<h3>Supported web apps:</h3>
+<h2>Supported web apps:</h2>
 <ul>
 	<li>WAR files</li>
 	<li>Web apps packed as ZIP archives (including standard password-protected ZIPs)</li>
@@ -34,7 +34,7 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.
 	<li>Embedded WAR / ZIP files and directories</li>
 </ul>
 
-<h3>Command line:</h3>
+<h2>Command line:</h2>
 
 
 ```text
@@ -89,7 +89,7 @@ java -jar tommy.jar --app MyKillerApp.zip --password mysecret myparam1 myparam2 
 ```
 
 
-<h3>Embed app:</h3>
+<h2>Embed app:</h2>
 <ul>
 	<li>Option 1. Copy your app content into the <code>/app</code> directory of the <code>tommy.jar</code>.
 	</li>
@@ -124,7 +124,7 @@ java -jar MyKillerApp.jar --password mysecret myparam1 myparam2 ...
 ```
 
 
-<h3>Tomcat configuration:</h3>
+<h2>Tomcat configuration:</h2>
 Tommy uses the Apache Tomcat configuration files from <code>/META-INF/tomcat/conf</code> directory of the <code>tommy.jar</code> archive.
 
 
@@ -158,7 +158,7 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
 ```
 
 
-<h3>F.A.Q.</h3>
+<h2>F.A.Q.</h2>
 
 <strong>Q.</strong> My app failed with <code>java.lang.ClassNotFoundException: javax.servlet.\*</code>
 <br>
