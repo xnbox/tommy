@@ -20,10 +20,9 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/10.0.8
 <h3>Features:</h3>
 <ul>
 	<li>Single executable jar (starts from ~10Mb)</li>
-	<li>100% pure Java</li>
-	<li>No external dependencies</li>
+	<li>No dependencies</li>
 	<li>Uses standard Tomcat configuration files</li>
-	<li>Supports custom command line args</li>
+	<li>Supports custom command line args, stdin, stdout, stderr</li>
 </ul>
 
 <h3>Supported web apps:</h3>
@@ -31,7 +30,7 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/10.0.8
 	<li>WAR files</li>
 	<li>Web apps packed as ZIP archives (including standard password-protected ZIPs)</li>
 	<li>Exploded web apps (local directories)</li>
-	<li>Remote WAR / ZIP files (HTTP)</li>
+	<li>Remote WAR / ZIP files (on HTTP servers)</li>
 	<li>Embedded WAR / ZIP files and directories</li>
 </ul>
 
