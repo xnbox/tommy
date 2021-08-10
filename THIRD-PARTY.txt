@@ -5,19 +5,19 @@ List of third party products
 NAME       : Tomcat
 LICENSE    : Apache License 2.0
 HOME PAGE  : https://tomcat.apache.org
-DESCRIPTION: Used as embedded Java Application Server. Thanks to Apache foundation and Tomcat developers.
+DESCRIPTION: Used as embedded Java Application Server
 
 
 NAME       : Jar-in-Jar loader
 LICENSE    : EPL-2.0 (Eclipse Public License v2.0)
 HOME PAGE  : https://www.eclipse.org
-DESCRIPTION: Used as class loader for SWT jars. Thanks to Eclipse foundation and Jar-in-Jar loader developers.
+DESCRIPTION: Used as class loader for SWT jars
 
 
 NAME       : Zip4j
 LICENSE    : Apache License 2.0
 HOME PAGE  : https://github.com/srikanth-lingala/zip4j
-DESCRIPTION: A Java library for zip files and streams. Thanks to Srikanth Reddy Lingala.
+DESCRIPTION: A Java library for zip files and streams
 
 
 ---------------------------------------------------------------------------------------
