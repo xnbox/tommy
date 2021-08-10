@@ -50,7 +50,7 @@ Options:
 ```
 
 
-<h3>Run app:</h3>
+<h2>Run app:</h2>
 
 
 Run ZIP (or WAR) file:
@@ -128,7 +128,7 @@ java -jar MyKillerApp.jar --password mysecret myparam1 myparam2 ...
 Tommy uses the Apache Tomcat configuration files from <code>/META-INF/tomcat/conf</code> directory of the <code>tommy.jar</code> archive.
 
 
-<h3>Access to the custom command-line args and system streams programmatically (JNDI):</h3>
+<h2>Access to the custom command-line args and system streams programmatically (JNDI):</h2>
 
 
 ```java
