@@ -14,7 +14,7 @@ We use Tommy web server in other our project <a href="https://github.com/xnbox/t
 </p>
 
 <h3>Download:</h3>
-Latest release: <a href="https://github.com/xnbox/tommy/releases/download/10.0.8/tommy-10.0.8.jar">tommy-10.0.8.jar</a> (on top of Apache Tomcat v10.0.8)
+Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.8/tommy-10.0.8.jar">tommy-10.0.8.jar</a> (on top of Apache Tomcat v10.0.8)
 
 
 <h3>Features:</h3>
