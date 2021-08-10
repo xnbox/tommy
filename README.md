@@ -1,4 +1,4 @@
-# Tommy Web Server
+# 🐈 Tommy Web Server
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
 [![Version 10.0.8](https://img.shields.io/badge/version-10.0.8-4DC71F?style=flat-square)](https://github.com/xnbox/tommy/releases)
 

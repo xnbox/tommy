@@ -112,19 +112,21 @@ public class Main {
 		 */
 		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
-		if (app == null)
-			CustomMain.main(argz);
-		else {
+		if (app == null) {
 			if (help) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\n");
-				sb.append("Tommy " + System.getProperty("build.version") + " " + System.getProperty("build.timestamp") + ". OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + "). JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ").\n");
+				sb.append(" 🟩 Tommy Web Server " + System.getProperty("build.version") + '\n');
 				sb.append("\n");
-				sb.append("Usage:\n");
+				sb.append(" Build: " + System.getProperty("build.timestamp") + '\n');
+				sb.append(" OS:    " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + ")" + '\n');
+				sb.append(" JVM:   " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ")\n");
 				sb.append("\n");
-				sb.append("java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
+				sb.append(" Usage:\n");
 				sb.append("\n");
-				sb.append("Options:\n");
+				sb.append(" java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
+				sb.append("\n");
+				sb.append(" Options:\n");
 				sb.append("  --help                   print help message\n");
 				sb.append("  --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL\n");
 				sb.append("  --port                   port number, default: 8080\n");
@@ -133,7 +135,8 @@ public class Main {
 				System.out.println(sb);
 				System.exit(0);
 			}
-		}
+		} else
+			CustomMain.main(argz);
 
 		/* JAR: META-INF/system.properties - System Properties (optional) */
 		try (InputStream is = cl.getResourceAsStream("META-INF/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
