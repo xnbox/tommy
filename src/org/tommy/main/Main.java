@@ -88,10 +88,10 @@ public class Main {
 				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_PASSWORD_OPTION)) {
 				password           = args[++i].toCharArray();
-				specialParamCount += 2;
+//				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_CONTEXT_PATH_OPTION)) {
 				contextPath        = args[++i];
-				specialParamCount += 2;
+//				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_PORT_OPTION)) {
 				try {
 					int portCli = Integer.parseInt(args[++i]);
@@ -100,10 +100,10 @@ public class Main {
 				} catch (Throwable e) {
 					// ignore exception
 				}
-				specialParamCount += 2;
+//				specialParamCount += 2;
 			} else if (args[i].equals(ARGS_HELP_OPTION)) {
 				help               = true;
-				specialParamCount += 1;
+//				specialParamCount += 1;
 			}
 		}
 
@@ -112,7 +112,11 @@ public class Main {
 		 */
 		String[] argz = Arrays.copyOfRange(args, specialParamCount, args.length);
 
-		if (app == null) {
+		boolean embedded = CommonUtils.getWarResource() != null;
+
+		if (embedded)
+			CustomMain.main(argz);
+		else {
 			if (help) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\n");
@@ -135,8 +139,7 @@ public class Main {
 				System.out.println(sb);
 				System.exit(0);
 			}
-		} else
-			CustomMain.main(argz);
+		}
 
 		/* JAR: META-INF/system.properties - System Properties (optional) */
 		try (InputStream is = cl.getResourceAsStream("META-INF/system.properties"); Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {

@@ -158,7 +158,7 @@ public class CommonUtils {
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	public static String getWarResource() throws MalformedURLException {
+	public static String getWarResource() {
 		// Fallback chain: app.war -> app.zip -> app (DIR) -> null
 
 		String warResource;

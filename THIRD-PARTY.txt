@@ -1,5 +1,5 @@
-List of third party products
----------------------------------------------------------------------------------------
+
+THIRD PARTY PRODUCTS
 
 
 NAME       : Tomcat
@@ -20,7 +20,7 @@ HOME PAGE  : https://github.com/srikanth-lingala/zip4j
 DESCRIPTION: A Java library for zip files and streams
 
 
----------------------------------------------------------------------------------------
 Please contact xnbox team by E-Mail xnbox.team@outlook.com
 or visit https://xnbox.github.io if you need additional
 information or have any questions.
+
