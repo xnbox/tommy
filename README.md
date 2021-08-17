@@ -174,7 +174,6 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
        showReport     = "false"
        showServerInfo = "false" />
 ```
-
 #
 
 <strong>Q.</strong> My app failed with <code>java.lang.ClassNotFoundException: javax.servlet.\*</code>
