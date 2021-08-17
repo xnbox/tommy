@@ -170,9 +170,9 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
 </ol>
 
 ```xml
-<Valve className     ="org.apache.catalina.valves.ErrorReportValve"
-       showReport    ="false"
-       showServerInfo="false"
+<Valve className      ="org.apache.catalina.valves.ErrorReportValve"
+       showReport     ="false"
+       showServerInfo ="false"
 />
 ```
 <hr>
