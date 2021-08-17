@@ -160,13 +160,14 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
 
 <h2>F.A.Q.</h2>
 
-<strong>Q.</strong> How to hide Tomcat stack trace and server info in error pages
+<strong>Q.</strong> How to hide Tomcat stack trace and server info in error pages?
 <br><br>
 <strong>A.</strong> Steps:
 <ol>
 <li>Edit the file <code>/META-INF/tomcat/conf/server.xml</code> of the <code>tommy.jar</code> archive</li>
 <li>Search for the <code>&lt;Host&gt;</code> element</li>
-<li>Just below that line, insert the following <code>&lt;Valve&gt;</code> element:
+<li>Just below that line, insert the following <code>&lt;Valve&gt;</code> element:</li>
+</ol>
 
 ```xml
 <Valve className     ="org.apache.catalina.valves.ErrorReportValve"
@@ -174,9 +175,7 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
        showServerInfo="false"
 />
 ```
-</li>
-</ol>
-<br><br>
+<hr>
 <strong>Q.</strong> My app failed with <code>java.lang.ClassNotFoundException: javax.servlet.\*</code>
 <br><br>
 <strong>A.</strong> As a result of the move from Java EE to Jakarta EE, starting from v10, Apache Tomcat supports only the Jakarta EE spec. <code>javax.servlet.\*</code> is no longer supported.
