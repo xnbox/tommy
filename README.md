@@ -169,11 +169,14 @@ String app = (String) ctx.lookup("java:comp/env/tommy/app");
 <li>Just below that line, insert the following <code>&lt;Valve&gt;</code> element:
 
 ```xml
-<Valve className="org.apache.catalina.valves.ErrorReportValve" showReport="false" showServerInfo="false" />
+<Valve className     ="org.apache.catalina.valves.ErrorReportValve"
+       showReport    ="false"
+       showServerInfo="false"
+/>
 ```
 </li>
 </ol>
-
+<br><br>
 <strong>Q.</strong> My app failed with <code>java.lang.ClassNotFoundException: javax.servlet.\*</code>
 <br><br>
 <strong>A.</strong> As a result of the move from Java EE to Jakarta EE, starting from v10, Apache Tomcat supports only the Jakarta EE spec. <code>javax.servlet.\*</code> is no longer supported.
