@@ -19,9 +19,10 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.
 
 <h2>Features:</h2>
 <ul>
-	<li>Single executable jar (starts from ~10Mb)</li>
 	<li>No dependencies</li>
-	<li>Uses standard Tomcat configuration files</li>
+	<li>No installation</li>
+	<li>No own configuration files, instead, Tommy uses standard Tomcat configuration files</li>
+	<li>Single executable jar (starts from ~10Mb)</li>
 	<li>Supports custom command line args, stdin, stdout, stderr</li>
 </ul>
 
