@@ -10,7 +10,7 @@ An app can be provided as a directory or packed as <abbr title="Web application 
 </p>
 
 <p>
-We use the Tommy web server in other our projects:<br>
+We use the Tommy web server in other our projects:
 <ul>
 	<li><a href="https://github.com/xnbox/tommybox#readme">TommyBox</a></li>
 	<li><a href="https://github.com/xnbox/DeepfakeHTTP#readme">DeepfakeHTTP</li>
