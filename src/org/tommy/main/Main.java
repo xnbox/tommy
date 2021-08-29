@@ -199,12 +199,13 @@ public class Main {
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
 
-		logger.info("SERVER: " + ctx.getServletContext().getServerInfo());
 		tomcat.start();
 
 		//logger.log(Level.CONFIG, "System Properties: " + System.getProperties());
 		//logger.log(Level.CONFIG, "Environment variables: " + System.getenv().toString());
-		logger.log(Level.CONFIG, "WAR: " + warPath);
+		//logger.log(Level.CONFIG, "WAR: " + warPath);
+
+		logger.log(Level.INFO, "Tommy started.");
 
 		tomcat.getServer().await();
 	}

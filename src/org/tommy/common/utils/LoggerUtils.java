@@ -42,14 +42,14 @@ public class LoggerUtils {
 	 * @return
 	 */
 	public static Logger createLogger(Class clazz) {
+
 		Logger  logger  = Logger.getLogger(clazz.getName());
 		logger.setLevel(Level.ALL);
 		logger.setUseParentHandlers(true);
 		LogManager.getLogManager().addLogger(logger);
 
-		Handler handler = new ConsoleHandler();
-		handler.setLevel(Level.ALL);
-		logger.addHandler(handler);
+		Logger.getLogger("org.apache").setLevel(Level.ALL);
+
 		return logger;
 	}
 }
