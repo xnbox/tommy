@@ -4,7 +4,7 @@ Build-Version: ${build.version}
 Build-Timestamp: ${build.timestamp}
 Main-Class: org.tommy.common.JarRsrcLoaderMain
 Rsrc-Main-Class: org.tommy.main.Main
-Rsrc-Class-Path: ./ 
+Rsrc-Class-Path: ./
   org/lib/annotations-api.jar
   org/lib/ecj-4.20.jar
   org/lib/tomcat-dbcp.jar
@@ -14,7 +14,10 @@ Rsrc-Class-Path: ./
   org/lib/tomcat-embed-programmatic.jar
   org/lib/tomcat-embed-websocket.jar
   org/lib/jasper.jar
-  org/lib/zip4j-2.9.0.jar 
+  org/lib/zip4j-2.9.0.jar
+  org/lib/jackson-annotations-2.12.0-rc2.jar
+  org/lib/jackson-core-2.12.0-rc2.jar
+  org/lib/jackson-databind-2.12.0-rc2.jar
 Implementation-Title: xnbox
 Implementation-Version: 121.11
 Implementation-Vendor: xnbox team
