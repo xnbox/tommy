@@ -84,27 +84,27 @@ public class Main {
 		String  contextPath = "/";
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals(ARGS_APP_OPTION)) {
-				app                = args[++i];
-				specialParamCount += 2;
-			} else if (args[i].equals(ARGS_PASSWORD_OPTION)) {
-				password           = args[++i].toCharArray();
-//				specialParamCount += 2;
-			} else if (args[i].equals(ARGS_CONTEXT_PATH_OPTION)) {
-				contextPath        = args[++i];
-//				specialParamCount += 2;
-			} else if (args[i].equals(ARGS_PORT_OPTION)) {
-				try {
-					int portCli = Integer.parseInt(args[++i]);
-					if (portCli >= 1 && portCli <= 65535)
-						port = portCli;
-				} catch (Throwable e) {
-					// ignore exception
+				if (i < args.length - 1) {
+					app                = args[++i];
+					specialParamCount += 2;
 				}
-//				specialParamCount += 2;
-			} else if (args[i].equals(ARGS_HELP_OPTION)) {
-				help               = true;
-//				specialParamCount += 1;
-			}
+			} else if (args[i].equals(ARGS_PASSWORD_OPTION)) {
+				if (i < args.length - 1)
+					password = args[++i].toCharArray();
+			} else if (args[i].equals(ARGS_CONTEXT_PATH_OPTION)) {
+				if (i < args.length - 1)
+					contextPath = args[++i];
+			} else if (args[i].equals(ARGS_PORT_OPTION)) {
+				if (i < args.length - 1)
+					try {
+						int portCli = Integer.parseInt(args[++i]);
+						if (portCli >= 1 && portCli <= 65535)
+							port = portCli;
+					} catch (Throwable e) {
+						// ignore exception
+					}
+			} else if (args[i].equals(ARGS_HELP_OPTION))
+				help = true;
 		}
 
 		/**
@@ -131,11 +131,11 @@ public class Main {
 				sb.append(" java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
 				sb.append("\n");
 				sb.append(" Options:\n");
-				sb.append("  --help                   print help message\n");
-				sb.append("  --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL\n");
-				sb.append("  --port                   port number, default: 8080\n");
-				sb.append("  --contextPath            context path, default: /\n");
-				sb.append("  --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
+				sb.append("         --help                   print help message\n");
+				sb.append("         --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL\n");
+				sb.append("         --port                   port number, default: 8080\n");
+				sb.append("         --contextPath            context path, default: /\n");
+				sb.append("         --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
 				System.out.println(sb);
 				System.exit(0);
 			}
