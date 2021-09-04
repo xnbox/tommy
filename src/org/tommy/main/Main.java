@@ -131,11 +131,11 @@ public class Main {
 				sb.append(" java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
 				sb.append("\n");
 				sb.append(" Options:\n");
-				sb.append("         --help                   print help message\n");
-				sb.append("         --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL\n");
-				sb.append("         --port                   port number, default: 8080\n");
-				sb.append("         --contextPath            context path, default: /\n");
-				sb.append("         --password <password>    provide password (for encrypted ZIP (or WAR) archive)\n");
+				sb.append("         --help                print help message\n");
+				sb.append("         --app <file|dir|URL>  run app from ZIP (or WAR) archive, directory or URL\n");
+				sb.append("         --port                TCP port number, default: 8080\n");
+				sb.append("         --contextPath         context path, default: /\n");
+				sb.append("         --password <password> provide password (for encrypted ZIP (or WAR) archive)\n");
 				System.out.println(sb);
 				System.exit(0);
 			}
