@@ -55,6 +55,9 @@ https://web.dev/add-manifest/
  */
 public class Main {
 
+	private static final int DEFAULT_PORT_8080     = 8080;
+	private static final int DEFAULT_SSL_PORT_8433 = 8433;
+
 	private static Class       clazz  = Main.class;
 	private static ClassLoader cl     = clazz.getClassLoader();
 	private static Logger      logger = LoggerUtils.createLogger(clazz);
@@ -67,7 +70,7 @@ public class Main {
 	private static final String ARGS_HELP_OPTION         = "--help";
 	private static final String ARGS_PORT_OPTION         = "--port";
 	private static final String ARGS_PORT_SSL_OPTION     = "--port-ssl";
-	private static final String ARGS_NO_REDIRECT_OPTION  = "--no-redirect";
+	private static final String ARGS_REDIRECT_OPTION     = "--redirect";
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--context-path";
 
 	public static void main(String[] args) throws Throwable {
@@ -85,7 +88,7 @@ public class Main {
 		Integer sslPort     = null;
 		String  contextPath = "/";
 		boolean help        = false;
-		boolean noRedirect  = false;
+		boolean redirect    = false;
 
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals(ARGS_APP_OPTION)) {
@@ -117,12 +120,18 @@ public class Main {
 					} catch (Throwable e) {
 						// ignore exception
 					}
-			} else if (args[i].equals(ARGS_NO_REDIRECT_OPTION))
-				noRedirect = true;
+			} else if (args[i].equals(ARGS_REDIRECT_OPTION))
+				redirect = true;
 			else if (args[i].equals(ARGS_HELP_OPTION))
 				help = true;
 		}
 
+		if (sslPort == null) {
+			if (port == null)
+				port = DEFAULT_PORT_8080;
+			if (redirect)
+				sslPort = DEFAULT_SSL_PORT_8433;
+		}
 		/**
 		 * Custom command line args
 		 */
@@ -150,7 +159,7 @@ public class Main {
 				sb.append("         --app <file|dir|URL>    run app from ZIP or WAR archive, directory or URL\n");
 				sb.append("         --port <number>         HTTP TCP port number, default: 8080              \n");
 				sb.append("         --port-ssl <number>     HTTPS TCP port number, default: 8443             \n");
-				sb.append("         --no-redirect           disable redirect HTTP to HTTPS                   \n");
+				sb.append("         --redirect              redirect HTTP to HTTPS                           \n");
 				sb.append("         --context-path <string> context path, default: /                         \n");
 				sb.append("         --password <string>     provide password for encrypted ZIP or WAR archive\n");
 				System.out.println(sb);
@@ -213,7 +222,7 @@ public class Main {
 		 */
 		contextPath = CommonUtils.getContextPath(contextPath);
 
-		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, !noRedirect);
+		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, redirect);
 
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());

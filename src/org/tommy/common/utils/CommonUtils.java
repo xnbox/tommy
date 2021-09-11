@@ -293,48 +293,49 @@ public class CommonUtils {
 				DocumentBuilder        builder        = builderFactory.newDocumentBuilder();
 				serverXmlDocument = builder.parse(is);
 
-				if (port != null) {
+				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
+				autoDeployNode.setTextContent(Boolean.toString(false));
+
+				Node connectorNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector").evaluate(serverXmlDocument, XPathConstants.NODE);
+				if (port == null)
+					connectorNode.getParentNode().removeChild(connectorNode);
+				else {
 					Node portNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector/@port").evaluate(serverXmlDocument, XPathConstants.NODE);
 					portNode.setTextContent(Integer.toString(port)); // update node with real TCP port number
 				}
 
-				if (sslPort != null) {
+				/* Add TLS(SSL) support */
+				if (port != null && sslPort != null) {
 					Node redirectPortNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector/@redirectPort").evaluate(serverXmlDocument, XPathConstants.NODE);
-					redirectPortNode.setTextContent(Integer.toString(sslPort)); // update node with real TCP port number
+					redirectPortNode.setTextContent(Integer.toString(sslPort)); // update node with real SSL TCP port number
 				}
 
-				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
-				autoDeployNode.setTextContent(Boolean.toString(false));
+				if (sslPort != null) {
+					Node    serviceNode      = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service").evaluate(serverXmlDocument, XPathConstants.NODE);
+					Element tlsConnectorNode = serverXmlDocument.createElement("Connector");
 
-				/* Add TLS(SSL) support */
+					tlsConnectorNode.setAttribute("port", Integer.toString(sslPort));
+					tlsConnectorNode.setAttribute("protocol", "org.apache.coyote.http11.Http11NioProtocol");
+					tlsConnectorNode.setAttribute("SSLEnabled", "true");
+					serviceNode.appendChild(tlsConnectorNode);
 
-				Node    serviceNode      = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service").evaluate(serverXmlDocument, XPathConstants.NODE);
-				Element tlsConnectorNode = serverXmlDocument.createElement("Connector");
+					Element upgradeProtocolEl = serverXmlDocument.createElement("UpgradeProtocol");
+					upgradeProtocolEl.setAttribute("className", "org.apache.coyote.http2.Http2Protocol");
+					tlsConnectorNode.appendChild(upgradeProtocolEl);
 
-				if (sslPort == null)
-					sslPort = 8443;
+					Element sslHostConfigEl = serverXmlDocument.createElement("SSLHostConfig");
+					tlsConnectorNode.appendChild(sslHostConfigEl);
 
-				tlsConnectorNode.setAttribute("port", Integer.toString(sslPort));
-				tlsConnectorNode.setAttribute("protocol", "org.apache.coyote.http11.Http11NioProtocol");
-				tlsConnectorNode.setAttribute("SSLEnabled", "true");
-				//tlsConnectorNode.setAttribute("maxThreads", "150");
-				serviceNode.appendChild(tlsConnectorNode);
-
-				Element upgradeProtocolEl = serverXmlDocument.createElement("UpgradeProtocol");
-				upgradeProtocolEl.setAttribute("className", "org.apache.coyote.http2.Http2Protocol");
-				tlsConnectorNode.appendChild(upgradeProtocolEl);
-
-				Element sslHostConfigEl = serverXmlDocument.createElement("SSLHostConfig");
-				tlsConnectorNode.appendChild(sslHostConfigEl);
-
-				Element certificateEl = serverXmlDocument.createElement("Certificate");
-				certificateEl.setAttribute("certificateKeystoreFile", "conf/keystore/localhost-rsa.jks");
-				certificateEl.setAttribute("certificateKeystorePassword", "changeit");
-				certificateEl.setAttribute("type", "RSA");
-				sslHostConfigEl.appendChild(certificateEl);
+					Element certificateEl = serverXmlDocument.createElement("Certificate");
+					certificateEl.setAttribute("certificateKeystoreFile", "conf/keystore/localhost-rsa.jks");
+					certificateEl.setAttribute("certificateKeystorePassword", "changeit");
+					certificateEl.setAttribute("type", "RSA");
+					sslHostConfigEl.appendChild(certificateEl);
+				}
 			}
 		}
 
+		/* update web.xml document */
 		Document webXmlDocument = null;
 		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/web.xml")) {
 			if (is != null) {
@@ -372,7 +373,7 @@ public class CommonUtils {
 
 		copyConfDocumentXml(confPath, "server.xml", serverXmlDocument);
 		copyConfDocumentXml(confPath, "web.xml", webXmlDocument);
-		//copyConfResource(confPath, "web.xml");
+
 		copyConfResource(confPath, "tomcat-users.xsd");
 		copyConfResource(confPath, "tomcat-users.xml");
 		copyConfResource(confPath, "logging.properties");
