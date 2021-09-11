@@ -68,7 +68,7 @@ public class Main {
 	private static final String ARGS_PORT_OPTION         = "--port";
 	private static final String ARGS_PORT_SSL_OPTION     = "--port-ssl";
 	private static final String ARGS_REDIRECT_OPTION     = "--redirect";
-	private static final String ARGS_CONTEXT_PATH_OPTION = "--contextPath";
+	private static final String ARGS_CONTEXT_PATH_OPTION = "--context-path";
 
 	public static void main(String[] args) throws Throwable {
 		ManifestUtils.extractBuildDataFromManifest(logger);
@@ -136,24 +136,23 @@ public class Main {
 			if (help) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\n");
-				sb.append(" 🟩 Tommy Web Server " + System.getProperty("build.version") + '\n');
+				sb.append(" 🟩 Tommy Web Server " + System.getProperty("build.version") + ". Build: " + System.getProperty("build.timestamp") + '\n');
 				sb.append("\n");
-				sb.append(" Build: " + System.getProperty("build.timestamp") + '\n');
-				sb.append(" OS:    " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + ")" + '\n');
-				sb.append(" JVM:   " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ")\n");
+				sb.append("  OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + ")" + '\n');
+				sb.append(" JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ")\n");
 				sb.append("\n");
 				sb.append(" Usage:\n");
 				sb.append("\n");
-				sb.append(" java -jar tommy.jar [options] [custom arg1] [custom arg2] ...\n");
+				sb.append(" java -jar tommy.jar [options] [custom arg]...\n");
 				sb.append("\n");
 				sb.append(" Options:\n");
-				sb.append("         --help                print help message\n");
-				sb.append("         --app <file|dir|URL>  run app from ZIP (or WAR) archive, directory or URL\n");
-				sb.append("         --port                TCP port number (http), default: 8080\n");
-				sb.append("         --port-ssl            TCP port number (https), default: 8443\n");
-				sb.append("         --redirect            redirect http to https\n");
-				sb.append("         --contextPath         context path, default: /\n");
-				sb.append("         --password <password> provide password (for encrypted ZIP (or WAR) archive)\n");
+				sb.append("         --help                  print help message\n");
+				sb.append("         --app <file|dir|URL>    run app from ZIP or WAR archive, directory or URL\n");
+				sb.append("         --port <number>         HTTP TCP port number, default: 8080\n");
+				sb.append("         --port-ssl <number>     HTTPS TCP port number, default: 8443\n");
+				sb.append("         --redirect              redirect HTTP to HTTPS\n");
+				sb.append("         --context-path <string> context path, default: /\n");
+				sb.append("         --password <string>     provide password for encrypted ZIP or WAR archive\n");
 				System.out.println(sb);
 				System.exit(0);
 			}

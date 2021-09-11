@@ -39,19 +39,20 @@ Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.
 	<li>Embedded WAR / ZIP files and directories</li>
 </ul>
 
-<h2>Command line:</h2>
+<h2>Usage:</h2>
 
 
 ```text
-java -jar tommy.jar [options] [custom arg1] [custom arg2] ...
+java -jar tommy.jar [options] [custom arg]...
 
 Options:
-  --help                   print help message
-  --app <file | dir | URL> run app from ZIP (or WAR) archive, directory or URL
-  --port                   TCP port number, default: 8080
-  --contextPath            context path, default: /
-  --password <password>    provide password (for encrypted ZIP (or WAR) archive)
-
+        --help                  print help message
+        --app <file|dir|URL>    run app from ZIP or WAR archive, directory or URL
+        --port <number>         HTTP TCP port number, default: 8080
+        --port-ssl <number>     HTTPS TCP port number, default: 8443
+        --redirect              redirect HTTP to HTTPS
+        --context-path <string> context path, default: /
+        --password <string>     provide password (for encrypted ZIP (or WAR) archive)
 ```
 
 
