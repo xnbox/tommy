@@ -67,7 +67,7 @@ public class Main {
 	private static final String ARGS_HELP_OPTION         = "--help";
 	private static final String ARGS_PORT_OPTION         = "--port";
 	private static final String ARGS_PORT_SSL_OPTION     = "--port-ssl";
-	private static final String ARGS_REDIRECT_OPTION     = "--redirect";
+	private static final String ARGS_NO_REDIRECT_OPTION  = "--no-redirect";
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--context-path";
 
 	public static void main(String[] args) throws Throwable {
@@ -85,7 +85,7 @@ public class Main {
 		Integer sslPort     = null;
 		String  contextPath = "/";
 		boolean help        = false;
-		boolean redirect    = false;
+		boolean noRedirect  = false;
 
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals(ARGS_APP_OPTION)) {
@@ -117,8 +117,8 @@ public class Main {
 					} catch (Throwable e) {
 						// ignore exception
 					}
-			} else if (args[i].equals(ARGS_REDIRECT_OPTION))
-				redirect = true;
+			} else if (args[i].equals(ARGS_NO_REDIRECT_OPTION))
+				noRedirect = true;
 			else if (args[i].equals(ARGS_HELP_OPTION))
 				help = true;
 		}
@@ -140,18 +140,18 @@ public class Main {
 				sb.append("\n");
 				sb.append("  OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + ")" + '\n');
 				sb.append(" JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ")\n");
-				sb.append("\n");
-				sb.append(" Usage:\n");
-				sb.append("\n");
-				sb.append(" java -jar tommy.jar [options] [custom arg]...\n");
-				sb.append("\n");
-				sb.append(" Options:\n");
-				sb.append("         --help                  print help message\n");
+				sb.append("                                                                                  \n");
+				sb.append(" Usage:                                                                           \n");
+				sb.append("                                                                                  \n");
+				sb.append(" java -jar tommy.jar [options] [custom arg]...                                    \n");
+				sb.append("                                                                                  \n");
+				sb.append(" Options:                                                                         \n");
+				sb.append("         --help                  print help message                               \n");
 				sb.append("         --app <file|dir|URL>    run app from ZIP or WAR archive, directory or URL\n");
-				sb.append("         --port <number>         HTTP TCP port number, default: 8080\n");
-				sb.append("         --port-ssl <number>     HTTPS TCP port number, default: 8443\n");
-				sb.append("         --redirect              redirect HTTP to HTTPS\n");
-				sb.append("         --context-path <string> context path, default: /\n");
+				sb.append("         --port <number>         HTTP TCP port number, default: 8080              \n");
+				sb.append("         --port-ssl <number>     HTTPS TCP port number, default: 8443             \n");
+				sb.append("         --no-redirect           disable redirect HTTP to HTTPS                   \n");
+				sb.append("         --context-path <string> context path, default: /                         \n");
 				sb.append("         --password <string>     provide password for encrypted ZIP or WAR archive\n");
 				System.out.println(sb);
 				System.exit(0);
@@ -213,7 +213,7 @@ public class Main {
 		 */
 		contextPath = CommonUtils.getContextPath(contextPath);
 
-		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, redirect);
+		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, !noRedirect);
 
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
