@@ -66,6 +66,8 @@ public class Main {
 	private static final String ARGS_PASSWORD_OPTION     = "--password";
 	private static final String ARGS_HELP_OPTION         = "--help";
 	private static final String ARGS_PORT_OPTION         = "--port";
+	private static final String ARGS_PORT_SSL_OPTION     = "--port-ssl";
+	private static final String ARGS_REDIRECT_OPTION     = "--redirect";
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--contextPath";
 
 	public static void main(String[] args) throws Throwable {
@@ -79,9 +81,12 @@ public class Main {
 
 		String  app         = null;
 		char[]  password    = null;
-		boolean help        = false;
 		Integer port        = null;
+		Integer sslPort     = null;
 		String  contextPath = "/";
+		boolean help        = false;
+		boolean redirect    = false;
+
 		for (int i = 1; i < args.length; i++) {
 			if (args[i].equals(ARGS_APP_OPTION)) {
 				if (i < args.length - 1) {
@@ -103,7 +108,18 @@ public class Main {
 					} catch (Throwable e) {
 						// ignore exception
 					}
-			} else if (args[i].equals(ARGS_HELP_OPTION))
+			} else if (args[i].equals(ARGS_PORT_SSL_OPTION)) {
+				if (i < args.length - 1)
+					try {
+						int portCli = Integer.parseInt(args[++i]);
+						if (portCli >= 1 && portCli <= 65535)
+							sslPort = portCli;
+					} catch (Throwable e) {
+						// ignore exception
+					}
+			} else if (args[i].equals(ARGS_REDIRECT_OPTION))
+				redirect = true;
+			else if (args[i].equals(ARGS_HELP_OPTION))
 				help = true;
 		}
 
@@ -133,7 +149,9 @@ public class Main {
 				sb.append(" Options:\n");
 				sb.append("         --help                print help message\n");
 				sb.append("         --app <file|dir|URL>  run app from ZIP (or WAR) archive, directory or URL\n");
-				sb.append("         --port                TCP port number, default: 8080\n");
+				sb.append("         --port                TCP port number (http), default: 8080\n");
+				sb.append("         --port-ssl            TCP port number (https), default: 8443\n");
+				sb.append("         --redirect            redirect http to https\n");
 				sb.append("         --contextPath         context path, default: /\n");
 				sb.append("         --password <password> provide password (for encrypted ZIP (or WAR) archive)\n");
 				System.out.println(sb);
@@ -180,8 +198,10 @@ public class Main {
 		Path   catalinaHomePath = catalinaHomeFile.toPath();
 		Path   webappsPath      = catalinaHomePath.resolve("webapps");
 		Files.createDirectories(webappsPath);
-		Path confPath = catalinaHomePath.resolve("conf");
+		Path confPath     = catalinaHomePath.resolve("conf");
+		Path keystorePath = confPath.resolve("keystore");
 		Files.createDirectories(confPath);
+		Files.createDirectories(keystorePath);
 
 		Path warPath = CommonUtils.getWarPath(jarFileName, webappsPath, app, password);
 		if (warPath == null) {
@@ -194,7 +214,7 @@ public class Main {
 		 */
 		contextPath = CommonUtils.getContextPath(contextPath);
 
-		CommonUtils.prepareTomcatConf(confPath, port);
+		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, redirect);
 
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());

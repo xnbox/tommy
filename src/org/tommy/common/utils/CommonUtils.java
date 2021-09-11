@@ -27,6 +27,7 @@ E-Mail: xnbox.team@outlook.com
 
 package org.tommy.common.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +65,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -103,17 +105,33 @@ public class CommonUtils {
 	}
 
 	/**
+	 * Copy the keystore file
+	 *
+	 * @param targetPath
+	 * @throws IOException
+	 */
+	public static void copyKeystoreResource(Path targetPath) throws IOException {
+		String fileName = "localhost-rsa.jks";
+		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/keystore/" + fileName)) {
+			if (is == null)
+				return;
+			Path path = targetPath.resolve(fileName);
+			Files.copy(is, path);
+		}
+	}
+
+	/**
 	 * Copy the Apache Tomcat "server.xml" file
 	 *
 	 * @param targetPath
 	 * @param fileName
-	 * @param serverXmlDocument
+	 * @param xmlDocument
 	 * @throws Throwable
 	 */
-	public static void copyConfServerXml(Path targetPath, String fileName, Document serverXmlDocument) throws Throwable {
+	public static void copyConfDocumentXml(Path targetPath, String fileName, Document xmlDocument) throws Throwable {
 		Path         path = targetPath.resolve(fileName);
 		OutputStream os   = Files.newOutputStream(path);
-		storeXmlDocument(serverXmlDocument, os);
+		storeXmlDocument(xmlDocument, os);
 	}
 
 	public static Path copyWarResource(Path targetPath, String warResource) throws IOException, URISyntaxException {
@@ -267,7 +285,7 @@ public class CommonUtils {
 	 * @param port
 	 * @throws Throwable
 	 */
-	public static void prepareTomcatConf(Path confPath, Integer port) throws Throwable {
+	public static void prepareTomcatConf(Path confPath, Path keystorePath, Integer port, Integer sslPort, boolean redirect) throws Throwable {
 		/* update server.xml document */
 		Document serverXmlDocument = null;
 		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/server.xml")) {
@@ -281,13 +299,81 @@ public class CommonUtils {
 					portNode.setTextContent(Integer.toString(port)); // update node with real TCP port number
 				}
 
+				if (sslPort != null) {
+					Node redirectPortNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Connector/@redirectPort").evaluate(serverXmlDocument, XPathConstants.NODE);
+					redirectPortNode.setTextContent(Integer.toString(sslPort)); // update node with real TCP port number
+				}
+
 				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
 				autoDeployNode.setTextContent(Boolean.toString(false));
+
+				/* Add TLS(SSL) support */
+
+				Node    serviceNode      = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service").evaluate(serverXmlDocument, XPathConstants.NODE);
+				Element tlsConnectorNode = serverXmlDocument.createElement("Connector");
+
+				if (sslPort == null)
+					sslPort = 8443;
+
+				tlsConnectorNode.setAttribute("port", Integer.toString(sslPort));
+				tlsConnectorNode.setAttribute("protocol", "org.apache.coyote.http11.Http11NioProtocol");
+				tlsConnectorNode.setAttribute("SSLEnabled", "true");
+				//tlsConnectorNode.setAttribute("maxThreads", "150");
+				serviceNode.appendChild(tlsConnectorNode);
+
+				Element upgradeProtocolEl = serverXmlDocument.createElement("UpgradeProtocol");
+				upgradeProtocolEl.setAttribute("className", "org.apache.coyote.http2.Http2Protocol");
+				tlsConnectorNode.appendChild(upgradeProtocolEl);
+
+				Element sslHostConfigEl = serverXmlDocument.createElement("SSLHostConfig");
+				tlsConnectorNode.appendChild(sslHostConfigEl);
+
+				Element certificateEl = serverXmlDocument.createElement("Certificate");
+				certificateEl.setAttribute("certificateKeystoreFile", "conf/keystore/localhost-rsa.jks");
+				certificateEl.setAttribute("certificateKeystorePassword", "changeit");
+				certificateEl.setAttribute("type", "RSA");
+				sslHostConfigEl.appendChild(certificateEl);
 			}
 		}
 
-		copyConfServerXml(confPath, "server.xml", serverXmlDocument);
-		copyConfResource(confPath, "web.xml");
+		Document webXmlDocument = null;
+		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/web.xml")) {
+			if (is != null) {
+				DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder        builder        = builderFactory.newDocumentBuilder();
+				webXmlDocument = builder.parse(is);
+
+				/* Add TLS(SSL) support */
+				if (redirect) {
+
+					Node    webAppNode           = (Node) XPathFactory.newInstance().newXPath().compile("/web-app").evaluate(webXmlDocument, XPathConstants.NODE);
+					Element securityConstraintEl = webXmlDocument.createElement("security-constraint");
+					webAppNode.appendChild(securityConstraintEl);
+
+					Element webResourceCollectionEl = webXmlDocument.createElement("web-resource-collection");
+					securityConstraintEl.appendChild(webResourceCollectionEl);
+
+					Element webResourceNameEl = webXmlDocument.createElement("web-resource-name");
+					webResourceNameEl.setTextContent("Secured");
+					webResourceCollectionEl.appendChild(webResourceNameEl);
+
+					Element urlPatternEl = webXmlDocument.createElement("url-pattern");
+					urlPatternEl.setTextContent("/*");
+					webResourceCollectionEl.appendChild(urlPatternEl);
+
+					Element userDataConstraintEl = webXmlDocument.createElement("user-data-constraint");
+					securityConstraintEl.appendChild(userDataConstraintEl);
+
+					Element transportGuaranteeEl = webXmlDocument.createElement("transport-guarantee");
+					transportGuaranteeEl.setTextContent("CONFIDENTIAL");
+					userDataConstraintEl.appendChild(transportGuaranteeEl);
+				}
+			}
+		}
+
+		copyConfDocumentXml(confPath, "server.xml", serverXmlDocument);
+		copyConfDocumentXml(confPath, "web.xml", webXmlDocument);
+		//copyConfResource(confPath, "web.xml");
 		copyConfResource(confPath, "tomcat-users.xsd");
 		copyConfResource(confPath, "tomcat-users.xml");
 		copyConfResource(confPath, "logging.properties");
@@ -296,6 +382,8 @@ public class CommonUtils {
 		copyConfResource(confPath, "context.xml");
 		copyConfResource(confPath, "catalina.properties");
 		copyConfResource(confPath, "catalina.policy");
+
+		copyKeystoreResource(keystorePath);
 	}
 
 	/**
