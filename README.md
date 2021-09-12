@@ -1,6 +1,6 @@
 # 🌆 Tommy Web Server
 [![License MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/xnbox/tommy/blob/master/LICENSE)
-[![Version 10.0.8](https://img.shields.io/badge/version-10.0.8-4DC71F?style=flat-square)](https://github.com/xnbox/tommy/releases)
+[![Version 10.0.10](https://img.shields.io/badge/version-10.0.10-4DC71F?style=flat-square)](https://github.com/xnbox/tommy/releases)
 
 <h2>About:</h2>
 <p><strong>Tommy</strong> is a tiny single-file fully configurable Apache Tomcat web server that allows you to run or embed static and dynamic (JSP and Servlets) web applications.
@@ -18,8 +18,7 @@ We use the Tommy web server in other our projects:
 </p>
 
 <h2>Download:</h2>
-Latest release: <a href="https://github.com/xnbox/tommy/releases/download/v10.0.8/tommy-10.0.8.jar">tommy-10.0.8.jar</a> (on top of Apache Tomcat v10.0.8)
-
+Download the <a href="https://github.com/xnbox/tommy/releases/latest">latest release</a> of <code>tommy.jar</code>
 
 <h2>Features:</h2>
 <ul>
