@@ -65,13 +65,43 @@ public class Main {
 	// The range 49152–65535 (215 + 214 to 216 − 1) contains dynamic or private ports that cannot be registered with IANA.
 	// This range is used for private or customized services, for temporary purposes, and for automatic allocation of ephemeral ports.
 
-	private static final String ARGS_APP_OPTION          = "--app";
-	private static final String ARGS_PASSWORD_OPTION     = "--password";
+	//@formatter:off
+
+	/**
+	 * print help message
+	 */
 	private static final String ARGS_HELP_OPTION         = "--help";
+
+	/**
+	 * run app from ZIP or WAR archive, directory or URL
+	 */
+	private static final String ARGS_APP_OPTION          = "--app";
+
+	/**
+	 * HTTP TCP port number, default: 8080
+	 */
 	private static final String ARGS_PORT_OPTION         = "--port";
+	/**
+	 * HTTPS TCP port number, default: 8443
+	 */
 	private static final String ARGS_PORT_SSL_OPTION     = "--port-ssl";
+
+	/**
+	 * redirect HTTP to HTTPS
+	 */
 	private static final String ARGS_REDIRECT_OPTION     = "--redirect";
+
+	/**
+	 * context path, default: /
+	 */
 	private static final String ARGS_CONTEXT_PATH_OPTION = "--context-path";
+
+	/**
+	 * provide password for encrypted ZIP or WAR archive
+	 */
+	private static final String ARGS_PASSWORD_OPTION     = "--password";
+
+	//@formatter:on
 
 	public static void main(String[] args) throws Throwable {
 		ManifestUtils.extractBuildDataFromManifest(logger);
@@ -145,7 +175,7 @@ public class Main {
 			if (help) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\n");
-				sb.append(" 🟩 Tommy Web Server " + System.getProperty("build.version") + ". Build: " + System.getProperty("build.timestamp") + '\n');
+				sb.append(" Tommy Web Server " + System.getProperty("build.version") + ". Build: " + System.getProperty("build.timestamp") + '\n');
 				sb.append("\n");
 				sb.append("  OS: " + SystemProperties.OS_NAME + " (" + SystemProperties.OS_ARCH + ")" + '\n');
 				sb.append(" JVM: " + SystemProperties.JAVA_JAVA_VM_NAME + " (" + SystemProperties.JAVA_JAVA_VERSION + ")\n");
