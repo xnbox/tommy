@@ -2,7 +2,7 @@
 THIRD PARTY PRODUCTS
 
 
-NAME       : Tomcat
+NAME       : Apache Tomcat
 LICENSE    : Apache License 2.0
 HOME PAGE  : https://tomcat.apache.org
 DESCRIPTION: Used as embedded Java Application Server
