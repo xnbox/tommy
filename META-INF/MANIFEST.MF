@@ -18,6 +18,10 @@ Rsrc-Class-Path: ./
   org/lib/jackson-annotations-2.12.0-rc2.jar
   org/lib/jackson-core-2.12.0-rc2.jar
   org/lib/jackson-databind-2.12.0-rc2.jar
+  org/lib/jackson-dataformat-yaml-2.12.0-rc2.jar
+  org/lib/jackson-syntax-highlight-1.0.6.jar
+  org/lib/snakeyaml-1.27.jar
+  
 Implementation-Title: xnbox
 Implementation-Version: 121.11
 Implementation-Vendor: xnbox team
