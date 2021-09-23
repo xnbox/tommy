@@ -293,6 +293,10 @@ public class CommonUtils {
 				DocumentBuilder        builder        = builderFactory.newDocumentBuilder();
 				serverXmlDocument = builder.parse(is);
 
+				/* shutdown port */
+				Node serverNodePort = (Node) XPathFactory.newInstance().newXPath().compile("/Server/@port").evaluate(serverXmlDocument, XPathConstants.NODE);
+				serverNodePort.setNodeValue("0");
+
 				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
 				autoDeployNode.setTextContent(Boolean.toString(false));
 

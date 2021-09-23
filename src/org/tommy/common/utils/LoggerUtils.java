@@ -27,8 +27,6 @@ E-Mail: xnbox.team@outlook.com
 
 package org.tommy.common.utils;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -42,8 +40,7 @@ public class LoggerUtils {
 	 * @return
 	 */
 	public static Logger createLogger(Class clazz) {
-
-		Logger  logger  = Logger.getLogger(clazz.getName());
+		Logger logger = Logger.getLogger(clazz.getName());
 		logger.setLevel(Level.ALL);
 		logger.setUseParentHandlers(true);
 		LogManager.getLogManager().addLogger(logger);
