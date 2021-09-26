@@ -21,7 +21,7 @@ Rsrc-Class-Path: ./
   org/lib/jackson-dataformat-yaml-2.12.0-rc2.jar
   org/lib/jackson-syntax-highlight-1.0.6.jar
   org/lib/snakeyaml-1.27.jar
-  
+  org/lib/jackson-dataformat-csv-2.12.5.jar
 Implementation-Title: xnbox
 Implementation-Version: 121.11
 Implementation-Vendor: xnbox team
