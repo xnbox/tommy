@@ -39,6 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 import javax.naming.Context;
@@ -401,7 +402,7 @@ public class CommonUtils {
 	 * @throws Throwable
 	 */
 	public static Tomcat prepareTomcat(Logger logger, String catalinaHome, String app, String[] argz) throws Throwable {
-		File catalinaBaseFile = Files.createTempDirectory("catalina_base-").toFile();
+		File catalinaBaseFile = Files.createTempDirectory("catalina_base-").toFile().getAbsoluteFile();
 		catalinaBaseFile.deleteOnExit();
 		String catalinaBase = catalinaBaseFile.getAbsolutePath();
 
@@ -438,8 +439,11 @@ public class CommonUtils {
 			public void run() {
 				if (tomcat != null)
 					try {
+						System.out.println("\nShutdown hook started");
 						tomcat.stop();
-					} catch (LifecycleException e) {
+						deleteDir(catalinaBaseFile.toPath());
+						deleteDir(new File(catalinaHome).getAbsoluteFile().toPath());
+					} catch (LifecycleException | IOException e) {
 						e.printStackTrace();
 					}
 			}
@@ -448,4 +452,9 @@ public class CommonUtils {
 		return tomcat;
 	}
 
+	public static void deleteDir(Path path) throws IOException {
+		if (!path.isAbsolute())
+			throw new IllegalArgumentException(path.toString());
+		Files.walk(path).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+	}
 }

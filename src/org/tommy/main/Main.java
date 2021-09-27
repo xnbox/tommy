@@ -255,8 +255,8 @@ public class Main {
 		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, redirect);
 
 		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
+		tomcat.getServer().getCatalina().setUseShutdownHook(true);
 		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
-
 		tomcat.start();
 
 		//logger.log(Level.CONFIG, "System Properties: " + System.getProperties());
