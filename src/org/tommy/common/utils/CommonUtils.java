@@ -39,7 +39,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Comparator;
 import java.util.logging.Logger;
 
 import javax.naming.Context;
@@ -57,7 +56,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Catalina;
 import org.apache.catalina.startup.CatalinaBaseConfigurationSource;
 import org.apache.catalina.startup.Constants;
@@ -428,33 +426,14 @@ public class CommonUtils {
 		initialContext.bind("java:comp/env/tommy/stdin", System.in); // InputStream
 		initialContext.bind("java:comp/env/tommy/stdout", System.out); // PrintStream
 		initialContext.bind("java:comp/env/tommy/stderr", System.err); // PrintStream
+		initialContext.bind("java:comp/env/tommy/catalina_base", catalinaBaseFile.toPath()); // Path
+		initialContext.bind("java:comp/env/tommy/catalina_home", new File(catalinaHome).getAbsoluteFile().toPath()); // Path
 
 		NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
 
 		tomcat.setAddDefaultWebXmlToWebapp(true);
 		tomcat.init(new CatalinaBaseConfigurationSource(new File(catalinaHome), catalinaHome + '/' + Catalina.SERVER_XML));
 
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				if (tomcat != null)
-					try {
-						System.out.println("\nShutdown hook started");
-						tomcat.stop();
-						deleteDir(catalinaBaseFile.toPath());
-						deleteDir(new File(catalinaHome).getAbsoluteFile().toPath());
-					} catch (LifecycleException | IOException e) {
-						e.printStackTrace();
-					}
-			}
-		});
-
 		return tomcat;
-	}
-
-	public static void deleteDir(Path path) throws IOException {
-		if (!path.isAbsolute())
-			throw new IllegalArgumentException(path.toString());
-		Files.walk(path).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
 	}
 }
