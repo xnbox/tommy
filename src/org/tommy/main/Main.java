@@ -78,6 +78,11 @@ public class Main {
 	private static final String ARGS_APP_OPTION          = "--app";
 
 	/**
+	 * host name, default: localhost
+	 */
+	private static final String ARGS_HOST_OPTION         = "--host";
+
+	/**
 	 * HTTP TCP port number, default: 8080
 	 */
 	private static final String ARGS_PORT_OPTION         = "--port";
@@ -114,6 +119,7 @@ public class Main {
 
 		String  app         = null;
 		char[]  password    = null;
+		String  host        = "localhost";
 		Integer port        = null;
 		Integer sslPort     = null;
 		String  contextPath = "/";
@@ -132,6 +138,9 @@ public class Main {
 			} else if (args[i].equals(ARGS_CONTEXT_PATH_OPTION)) {
 				if (i < args.length - 1)
 					contextPath = args[++i];
+			} else if (args[i].equals(ARGS_HOST_OPTION)) {
+				if (i < args.length - 1)
+					host = args[++i];
 			} else if (args[i].equals(ARGS_PORT_OPTION)) {
 				if (i < args.length - 1)
 					try {
@@ -187,6 +196,7 @@ public class Main {
 				sb.append(" Options:                                                                         \n");
 				sb.append("         --help                  print help message                               \n");
 				sb.append("         --app <file|dir|URL>    run app from ZIP or WAR archive, directory or URL\n");
+				sb.append("         --host <host name>      host name, default: localhost                    \n");
 				sb.append("         --port <number>         HTTP TCP port number, default: 8080              \n");
 				sb.append("         --port-ssl <number>     HTTPS TCP port number, default: 8443             \n");
 				sb.append("         --redirect              redirect HTTP to HTTPS                           \n");
@@ -252,11 +262,11 @@ public class Main {
 		 */
 		contextPath = CommonUtils.getContextPath(contextPath);
 
-		CommonUtils.prepareTomcatConf(confPath, keystorePath, port, sslPort, redirect);
+		CommonUtils.prepareTomcatConf(confPath, keystorePath, host, port, sslPort, redirect);
 
-		Tomcat                      tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
+		Tomcat tomcat = CommonUtils.prepareTomcat(logger, catalinaHome, app, argz);
 		tomcat.getServer().getCatalina().setUseShutdownHook(true);
-		org.apache.catalina.Context ctx    = tomcat.addWebapp(contextPath, warPath.toString());
+		org.apache.catalina.Context ctx = tomcat.addWebapp(contextPath, warPath.toString());
 		tomcat.start();
 
 		//logger.log(Level.CONFIG, "System Properties: " + System.getProperties());

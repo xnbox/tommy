@@ -280,10 +280,14 @@ public class CommonUtils {
 	 * Prepare Apache Tomcat configuration
 	 *
 	 * @param confPath
+	 * @param keystorePath
+	 * @param host
 	 * @param port
+	 * @param sslPort
+	 * @param redirect
 	 * @throws Throwable
 	 */
-	public static void prepareTomcatConf(Path confPath, Path keystorePath, Integer port, Integer sslPort, boolean redirect) throws Throwable {
+	public static void prepareTomcatConf(Path confPath, Path keystorePath, String host, Integer port, Integer sslPort, boolean redirect) throws Throwable {
 		/* update server.xml document */
 		Document serverXmlDocument = null;
 		try (InputStream is = cl.getResourceAsStream("META-INF/tomcat/conf/server.xml")) {
@@ -295,6 +299,12 @@ public class CommonUtils {
 				/* shutdown port */
 				Node serverNodePort = (Node) XPathFactory.newInstance().newXPath().compile("/Server/@port").evaluate(serverXmlDocument, XPathConstants.NODE);
 				serverNodePort.setNodeValue("0");
+
+				Node engineDefaultHostNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/@defaultHost").evaluate(serverXmlDocument, XPathConstants.NODE);
+				engineDefaultHostNode.setTextContent(host);
+
+				Node engineHostNameNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@name").evaluate(serverXmlDocument, XPathConstants.NODE);
+				engineHostNameNode.setTextContent(host);
 
 				Node autoDeployNode = (Node) XPathFactory.newInstance().newXPath().compile("/Server/Service/Engine/Host/@autoDeploy").evaluate(serverXmlDocument, XPathConstants.NODE);
 				autoDeployNode.setTextContent(Boolean.toString(false));
